@@ -5,8 +5,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="0dde0554f820441daaf099e17a95ea2a" Name="Diagram1">
-        <EntityTypeShape EntityType="TrackingAndTraceModel.Usuario" Width="1.5" PointX="6.125" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TrackingAndTraceModel.ROL" Width="1.5" PointX="3.875" PointY="1.875" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.Usuario" Width="1.5" PointX="5.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.ROL" Width="1.5" PointX="3.25" PointY="1.25" />
         <AssociationConnector Association="TrackingAndTraceModel.FK__Usuario__IdRol__398D8EEE" />
       </Diagram>
     </edmx:Diagrams>

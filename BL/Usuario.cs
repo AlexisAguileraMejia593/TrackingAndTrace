@@ -8,37 +8,62 @@ namespace BL
 {
     public class Usuario
     {
-        public static ML.Result GetAll()
+        public static List<ML.Usuario> GetAll()
         {
-            ML.Result result = new ML.Result();
+            List<ML.Usuario> usuariolist = new List<ML.Usuario>();
             try
             {
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
                     var query = context.UsuarioGetAll();
                     if (query != null)
-                    {
-
-                        result.Objects = new List<object>();
+                    {               
                         foreach (var registro in query)
                         {
                             ML.Usuario usuario = new ML.Usuario();
                             usuario.IdUsuario = registro.IdUsuario;
                             usuario.UserName = registro.UserName;
                             usuario.Password = registro.Password;
-                            result.Objects.Add(usuario);
+                            usuario.Rol = new ML.Rol();
+                            usuario.Rol.IdRol = registro.IdRol.Value;
+                            usuario.Email = registro.Email;
+                            usuario.Nombre = registro.Nombre;
+                            usuario.ApellidoPaterno = registro.ApellidoPaterno;
+                            usuario.ApellidoMaterno = registro.ApellidoMaterno;
+                            usuariolist.Add(usuario);
                         }
-                        result.Correct = true;
-                    }
-                    else
-                    {
-                        result.Correct = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                result.ErrorMessage = ex.Message;
+                Console.WriteLine(ex.Message);
+            }
+            return usuariolist;
+        }
+        public static object GetByEmail(string email)
+        {
+            object result = null;
+            try
+            {
+                using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
+                {
+                    var query = context.UsuarioGetByEmail(email).FirstOrDefault();
+
+                    if (query != null)
+                    {
+                        ML.Usuario usuario = new ML.Usuario();
+                        usuario.Email = query.Email;
+                        usuario.Password = query.Password;
+
+                        // Boxing
+                        result = (object)usuario;
+                    }
+                }
+            }
+            catch
+            {
+                // Manejo de excepciones
             }
             return result;
         }

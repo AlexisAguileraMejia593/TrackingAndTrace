@@ -78,6 +78,9 @@
     <Compile Include="UsuarioGetAll_Result.cs">
       <DependentUpon>TrackingAndTrace.tt</DependentUpon>
     </Compile>
+    <Compile Include="UsuarioGetByEmail_Result.cs">
+      <DependentUpon>TrackingAndTrace.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

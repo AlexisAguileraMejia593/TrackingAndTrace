@@ -25,7 +25,7 @@
           <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" />
           <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK__Usuario__IdRol__398D8EEE">
+        <Association Name="FK__Usuario__IdRol__145C0A3F">
           <End Role="ROL" Type="Self.ROL" Multiplicity="0..1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -38,10 +38,13 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="UsuarioGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UsuarioGetByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="TrackingAndTraceModelStoreContainer">
           <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Usuario__IdRol__398D8EEE" Association="Self.FK__Usuario__IdRol__398D8EEE">
+          <AssociationSet Name="FK__Usuario__IdRol__145C0A3F" Association="Self.FK__Usuario__IdRol__145C0A3F">
             <End Role="ROL" EntitySet="ROL" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
@@ -72,6 +75,9 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetAll_Result)" />
+          <FunctionImport Name="UsuarioGetByEmail" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetByEmail_Result)">
+          <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="ROL">
           <Key>
@@ -103,6 +109,10 @@
           <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="UsuarioGetByEmail_Result">
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -131,17 +141,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="TrackingAndTraceModel.Store.UsuarioGetAll">
+          <FunctionImportMapping FunctionImportName="UsuarioGetByEmail" FunctionName="TrackingAndTraceModel.Store.UsuarioGetByEmail">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="TrackingAndTraceModel.UsuarioGetAll_Result">
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+              <ComplexTypeMapping TypeName="TrackingAndTraceModel.UsuarioGetByEmail_Result">
                 <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
