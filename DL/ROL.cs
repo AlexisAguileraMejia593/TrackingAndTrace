@@ -12,17 +12,18 @@ namespace DL
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class ROL
     {
-        public int IdUsuario { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public Nullable<int> IdRol { get; set; }
-        public string Email { get; set; }
-        public string Nombre { get; set; }
-        public string ApellidoPaterno { get; set; }
-        public string ApellidoMaterno { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ROL()
+        {
+            this.Usuario = new HashSet<Usuario>();
+        }
     
-        public virtual ROL ROL { get; set; }
+        public int IdRol { get; set; }
+        public string Tipo { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

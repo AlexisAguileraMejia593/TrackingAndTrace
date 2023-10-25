@@ -10,9 +10,8 @@
 namespace DL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class UsuarioGetAll_Result
     {
         public int IdUsuario { get; set; }
         public string UserName { get; set; }
@@ -22,7 +21,5 @@ namespace DL
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
-    
-        public virtual ROL ROL { get; set; }
     }
 }
