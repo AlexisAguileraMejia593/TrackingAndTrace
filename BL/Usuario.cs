@@ -67,5 +67,38 @@ namespace BL
             }
             return result;
         }
+        public static object GetById(int IdUsuario)
+        {
+            object result = null;
+            try
+            {
+                using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
+                {
+                    var query = context.UsuarioGetById(IdUsuario).FirstOrDefault();
+
+                    if (query != null)
+                    {
+                        ML.Usuario usuario = new ML.Usuario();
+                        usuario.IdUsuario = query.IdUsuario;
+                        usuario.UserName = query.UserName;
+                        usuario.Password = query.Password;
+                        usuario.Rol = new ML.Rol();
+                        usuario.Rol.IdRol = query.IdRol.Value;
+                        usuario.Email = query.Email;
+                        usuario.Nombre = query.Nombre;
+                        usuario.ApellidoPaterno = query.ApellidoPaterno;
+                        usuario.ApellidoMaterno = query.ApellidoMaterno;
+
+                        // Boxing
+                        result = (object)usuario;
+                    }
+                }
+            }
+            catch
+            {
+                // Manejo de excepciones
+            }
+            return result;
+        }
     }
 }

@@ -20,25 +20,22 @@
                 var rol = Context.Session["Rol"] as string;
             }
 
-            @if (rol == "Administrador")
-            {
-                // Show the administrator parts of the layout
-                <li>@Html.ActionLink("Admin Dashboard", "Dashboard", "Admin", new { area = "" }, new { @class = "nav-link" })</li>
-            }
-
-            // Common parts of the layout
-            <li>@Html.ActionLink("Profile", "Profile", "User", new { area = "" }, new { @class = "nav-link" })</li>
-            <li>@Html.ActionLink("Logout", "Logout", "User", new { area = "" }, new { @class = "nav-link" })</li>
-
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Usuario", "Index", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Administrador", "Index", "Administrador", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Repartidor", "Index", "Repartidor", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Iniciar Sesion ", "Login", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>
+                    
+                    @if (User.IsInRole("Administrador"))
+                        {
+                        <li>@Html.ActionLink("Usuario", "Index", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Administrador", "Index", "Administrador", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Repartidor", "Index", "Repartidor", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Iniciar Sesion ", "Login", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
                 </ul>
                 <div class="navbar-nav">
-                    <li>@Html.ActionLink("Iniciar Sesion ", "Login", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Iniciar Sesion ", "Login", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>                    
                 </div>
             </div>
         </div>
