@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace BL
                 {
                     var query = context.UsuarioGetAll();
                     if (query != null)
-                    {               
+                    {
                         foreach (var registro in query)
                         {
                             ML.Usuario usuario = new ML.Usuario();
@@ -53,8 +54,11 @@ namespace BL
                     if (query != null)
                     {
                         ML.Usuario usuario = new ML.Usuario();
+                        usuario.Rol = new ML.Rol();
                         usuario.Email = query.Email;
                         usuario.Password = query.Password;
+                        usuario.Rol.IdRol = query.IdRol;
+                        usuario.Rol.Tipo = query.Tipo;
 
                         // Boxing
                         result = (object)usuario;
@@ -99,6 +103,91 @@ namespace BL
                 // Manejo de excepciones
             }
             return result;
+        }
+        public static bool Add(ML.Usuario usuario)
+        {
+            try
+            {
+                using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
+                {
+                    var query = context.UsuarioAdd(
+                        usuario.UserName,
+                        usuario.Password,
+                        usuario.Rol.IdRol,
+                        usuario.Email,
+                        usuario.Nombre,
+                        usuario.ApellidoPaterno,
+                        usuario.ApellidoMaterno
+                        );
+
+                    if (query > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }            
+        }
+        public static bool Update(ML.Usuario usuario)
+        {
+            try
+            {
+                using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
+                {
+                    var query = context.UsuarioUpdate(
+                        usuario.IdUsuario,
+                        usuario.UserName,
+                        usuario.Password,
+                        usuario.Rol.IdRol,
+                        usuario.Email,
+                        usuario.Nombre,
+                        usuario.ApellidoPaterno,
+                        usuario.ApellidoMaterno
+                        );
+
+                    if (query > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public static bool Delete(int IdUsuario)
+        {
+            try
+            {
+                using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
+                {
+                    var registro = context.UsuarioDelete(IdUsuario);
+                    if (registro > 0)
+                    {
+                         return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

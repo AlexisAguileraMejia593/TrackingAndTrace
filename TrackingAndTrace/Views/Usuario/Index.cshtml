@@ -1,8 +1,58 @@
-﻿
+﻿@model ML.Usuario
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="text-center">
+    <h2>Usuarios</h2>
+    <h5>Lista de Usuarios</h5>
+</div>
+<hr />
 
+<a href="@Url.Action("Form","Departamento")" class="btn btn-success">Agregar </a>
+@if (Model.Usuarios.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <!-- On rows -->
+            <tr class="bg-warning">
+                <th>Editar</th>
+                <th>IdUsuario</th>
+                <th>UserName</th>
+                <th>Password</th>
+                <th>IdRol</th>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>ApellidoPaterno</th>
+                <th>ApellidoMaterno</th>
+                <th>Eliminar</th>
+                <!-- On cells (`td` or `th`) -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ML.Usuario usuario in Model.Usuarios)
+            {
+                <tr>
+                    <td><a class="btn btn-warning" href="@Url.Action("Form", "Departamento", new { IdUsuario = usuario.IdUsuario })"><i class="fa-solid fa-pencil fa-bounce" style="color: #332774;"></i></a></td>
+                    <td>@usuario.IdUsuario</td>
+                    <td>@usuario.UserName</td>
+                    <td>@usuario.Password</td>
+                    <td>@usuario.Rol.IdRol</td>
+                    <td>@usuario.Email</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.ApellidoPaterno</td>
+                    <td>@usuario.ApellidoMaterno</td>
+
+                    <td><a class="btn btn-danger" href="@Url.Action("Delete", "Departamento", new { IdUsuario = usuario.IdUsuario,})" onclick="return confirm('Estas seguro de que quieres eliminar este registro');"> <i class="fa-solid fa-trash fa-beat" style="color: black;"></i></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        No existen registros en la tabla :(
+    </div>
+}
