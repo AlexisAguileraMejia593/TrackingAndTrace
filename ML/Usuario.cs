@@ -16,6 +16,6 @@ namespace ML
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
-        public List<object> Usuarios { get; set; }
+        public List<Usuario> Usuarios { get; set; }
     }
 }

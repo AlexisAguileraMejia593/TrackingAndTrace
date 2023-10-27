@@ -1,6 +1,7 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -17,6 +18,29 @@ namespace TrackingAndTrace.Controllers
             ML.Usuario usuario = new ML.Usuario();
             List<ML.Usuario> list = BL.Usuario.GetAll();
             usuario.Usuarios = list;
+            return View(usuario);
+        }
+        [HttpGet]
+        public ActionResult Form(int? IdUsuario)
+        {
+            ML.Usuario usuario = new ML.Usuario();
+            usuario.Rol = new ML.Rol();
+
+            List<ML.Rol> listrol = BL.Rol.GetAll();
+
+            if (IdUsuario != null)
+            {
+                var list = BL.Usuario.GetById(IdUsuario.Value);
+                if (list != null)
+                {
+                    //UNBOXING
+                    usuario = (ML.Usuario)list;
+                }
+            }
+            else 
+            {
+                usuario.Rol.Roles = listrol;
+            }
             return View(usuario);
         }
         public ActionResult Login()

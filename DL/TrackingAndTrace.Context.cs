@@ -30,11 +30,6 @@ namespace DL
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<ROL> ROL { get; set; }
     
-        public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll");
-        }
-    
         public virtual ObjectResult<UsuarioGetById_Result> UsuarioGetById(Nullable<int> idUsuario)
         {
             var idUsuarioParameter = idUsuario.HasValue ?
@@ -130,6 +125,16 @@ namespace DL
                 new ObjectParameter("ApellidoMaterno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioUpdate", idUsuarioParameter, userNameParameter, passwordParameter, idRolParameter, emailParameter, nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter);
+        }
+    
+        public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll");
+        }
+    
+        public virtual ObjectResult<RolGetAll_Result> RolGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RolGetAll_Result>("RolGetAll");
         }
     }
 }

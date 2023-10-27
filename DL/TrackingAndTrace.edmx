@@ -37,6 +37,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="RolGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UsuarioAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserName" Type="varchar" Mode="In" />
           <Parameter Name="Password" Type="varchar" Mode="In" />
@@ -99,7 +100,6 @@
             <End Role="ROL" EntitySet="ROL" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetAll_Result)" />
           <FunctionImport Name="UsuarioGetById" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetById_Result)">
           <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -116,7 +116,7 @@
             <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UsuarioDelete">
-            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="UsuarioUpdate">
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
@@ -128,6 +128,8 @@
             <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
             <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetAll_Result)" />
+          <FunctionImport Name="RolGetAll" ReturnType="Collection(TrackingAndTraceModel.RolGetAll_Result)" />
         </EntityContainer>
         <EntityType Name="ROL">
           <Key>
@@ -149,16 +151,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="UsuarioGetAll_Result">
-          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
-          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="IdRol" Nullable="true" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="UsuarioGetById_Result">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
           <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
@@ -172,6 +164,20 @@
         <ComplexType Name="UsuarioGetByEmail_Result">
           <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdRol" Nullable="false" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UsuarioGetAll_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="RolGetAll_Result">
           <Property Type="Int32" Name="IdRol" Nullable="false" />
           <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
         </ComplexType>
@@ -230,6 +236,28 @@
           <FunctionImportMapping FunctionImportName="UsuarioAdd" FunctionName="TrackingAndTraceModel.Store.UsuarioAdd" />
           <FunctionImportMapping FunctionImportName="UsuarioDelete" FunctionName="TrackingAndTraceModel.Store.UsuarioDelete" />
           <FunctionImportMapping FunctionImportName="UsuarioUpdate" FunctionName="TrackingAndTraceModel.Store.UsuarioUpdate" />
+          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="TrackingAndTraceModel.Store.UsuarioGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TrackingAndTraceModel.UsuarioGetAll_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RolGetAll" FunctionName="TrackingAndTraceModel.Store.RolGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TrackingAndTraceModel.RolGetAll_Result">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
