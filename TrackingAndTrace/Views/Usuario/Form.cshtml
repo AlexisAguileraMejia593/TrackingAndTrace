@@ -17,43 +17,69 @@
     {
         @Html.HiddenFor(model => model.IdUsuario)
 
-<div class="row">
-    <div class="col-md-3">
-        @Html.LabelFor(model => model.UserName)
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="col-md-3">
-        @Html.LabelFor(model => model.Password)
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-            @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
-        </div>
+        <div class="row">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.UserName)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Password)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                </div>
 
-    </div>
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.Rol.IdRol)
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user fa-lg"></i></span>
-                @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Tipo"), "Selecciona un rol ", new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Rol.IdRol)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user fa-lg"></i></span>
+                    @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Tipo"), "Selecciona un rol ", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Email)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                </div>
             </div>
         </div>
-    <div class="col-md-3">
-        @Html.LabelFor(model => model.Email)
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+
+        <div class="row">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Nombre)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.ApellidoPaterno)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.ApellidoMaterno)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control" })
+                </div>
+
+            </div>
         </div>
-    </div>
-</div>
         <div class="text-center">
             <button id="btnGuardar" class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
             <a id="btnCancelar" onmouseover="CambiarColor()" class="btn btn-danger" href="@Url.Action("Index", "Usuario")"><i class="fa-solid fa-right-from-bracket"></i> Volver</a>
         </div>
     }
-    </div>
+</div>
 
 <script type="text/javascript">
     $("#btnGuardar").mouseenter(function () {

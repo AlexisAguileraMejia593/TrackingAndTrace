@@ -87,11 +87,12 @@ namespace BL
                         usuario.UserName = query.UserName;
                         usuario.Password = query.Password;
                         usuario.Rol = new ML.Rol();
-                        usuario.Rol.IdRol = query.IdRol.Value;
+                        usuario.Rol.IdRol = query.IdRol;
                         usuario.Email = query.Email;
                         usuario.Nombre = query.Nombre;
                         usuario.ApellidoPaterno = query.ApellidoPaterno;
                         usuario.ApellidoMaterno = query.ApellidoMaterno;
+                        usuario.Rol.Tipo = query.Tipo;
 
                         // Boxing
                         result = (object)usuario;

@@ -8,6 +8,7 @@
         <EntityTypeShape EntityType="TrackingAndTraceModel.Usuario" Width="1.5" PointX="4.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="TrackingAndTraceModel.ROL" Width="1.5" PointX="2.5" PointY="1.625" />
         <AssociationConnector Association="TrackingAndTraceModel.FK__Usuario__IdRol__398D8EEE" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.Repartidor" Width="1.5" PointX="6.875" PointY="1.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -121,6 +121,7 @@
     <Compile Include="Controllers\AdministradorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RepartidorController.cs" />
+    <Compile Include="Controllers\UnidadController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -209,6 +210,10 @@
     <Content Include="Views\Repartidor\Index.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Form.cshtml" />
+    <Content Include="Views\Usuario\Modal.cshtml" />
+    <Content Include="Views\Repartidor\Form.cshtml" />
+    <Content Include="Views\Repartidor\Modal.cshtml" />
+    <Content Include="Views\Unidad\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

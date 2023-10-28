@@ -1,0 +1,54 @@
+﻿@model ML.Unidad
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src=" https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+<div class="text-center">
+    <h2>Repartidor</h2>
+    <h5>Lista de Repartidores</h5>
+</div>
+<hr />
+
+<a href="@Url.Action("Form","Unidad")" class="btn btn-success">Agregar </a>
+@if (Model.Unidades.Count > 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <!-- On rows -->
+            <tr class="bg-warning">
+                <th>Editar</th>
+                <th>IdUnidad</th>
+                <th>Numero de Placa</th>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Año de Fabricacion</th>
+                <th>IdEstatusUnidad</th>
+                <th>Eliminar</th>
+                <!-- On cells (`td` or `th`) -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ML.Unidad unidad in Model.Unidades)
+            {
+                <tr>
+                    <td><a class="btn btn-warning" href="@Url.Action("Form", "Unidad", new { IdUnidad = unidad.IdUnidad })"><i class="fa-solid fa-pencil fa-bounce" style="color: #332774;"></i></a></td>
+                    <td>@unidad.IdUnidad</td>
+                    <td>@unidad.NumeroPlaca</td>
+                    <td>@unidad.Modelo</td>
+                    <td>@unidad.Marca</td>
+                    <td>@unidad.AñoFabricacion</td>
+                    <td>@unidad.IdEstatusUnidad</td>
+                    <td><a class="btn btn-danger" href="@Url.Action("Delete", "Unidad", new { IdUnidad = unidad.IdUnidad })" onclick="return confirm('Estas seguro de que quieres eliminar este registro');"> <i class="fa-solid fa-trash fa-beat" style="color: black;"></i></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        No existen registros en la tabla :(
+    </div>
+}

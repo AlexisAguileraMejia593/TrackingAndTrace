@@ -11,7 +11,7 @@
 </div>
 <hr />
 
-<a href="@Url.Action("Form","Departamento")" class="btn btn-success">Agregar </a>
+<a href="@Url.Action("Form","Usuario")" class="btn btn-success">Agregar </a>
 @if (Model.Usuarios.Count > 0)
 {
     <table class="table table-bordered">
@@ -35,7 +35,7 @@
             @foreach (ML.Usuario usuario in Model.Usuarios)
             {
                 <tr>
-                    <td><a class="btn btn-warning" href="@Url.Action("Form", "Departamento", new { IdUsuario = usuario.IdUsuario })"><i class="fa-solid fa-pencil fa-bounce" style="color: #332774;"></i></a></td>
+                    <td><a class="btn btn-warning" href="@Url.Action("Form", "Usuario", new { IdUsuario = usuario.IdUsuario })"><i class="fa-solid fa-pencil fa-bounce" style="color: #332774;"></i></a></td>
                     <td>@usuario.IdUsuario</td>
                     <td>@usuario.UserName</td>
                     <td>@usuario.Password</td>
@@ -45,7 +45,7 @@
                     <td>@usuario.ApellidoPaterno</td>
                     <td>@usuario.ApellidoMaterno</td>
 
-                    <td><a class="btn btn-danger" href="@Url.Action("Delete", "Departamento", new { IdUsuario = usuario.IdUsuario,})" onclick="return confirm('Estas seguro de que quieres eliminar este registro');"> <i class="fa-solid fa-trash fa-beat" style="color: black;"></i></a></td>
+                    <td><a class="btn btn-danger" href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario,})" onclick="return confirm('Estas seguro de que quieres eliminar este registro');"> <i class="fa-solid fa-trash fa-beat" style="color: black;"></i></a></td>
                 </tr>
             }
         </tbody>

@@ -13,6 +13,7 @@ namespace TrackingAndTrace.Controllers
     public class UsuarioController : Controller
     {
         // GET: Usuario
+        [HttpGet]
         public ActionResult Index()
         {
             ML.Usuario usuario = new ML.Usuario();
@@ -41,12 +42,67 @@ namespace TrackingAndTrace.Controllers
             {
                 usuario.Rol.Roles = listrol;
             }
+            usuario.Rol.Roles = listrol;
             return View(usuario);
         }
+        [HttpPost]
+        public ActionResult Form(ML.Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                if (usuario.IdUsuario == 0)
+                {
+                    bool result = BL.Usuario.Add(usuario);
+                    if (result)
+                    {
+                        ViewBag.Mensaje = "Se ha ingresado correctamente el usuario";
+                    }
+                    else
+                    {
+                        ViewBag.Mensaje = "No se ha ingresado correctamente el usuario. Error: " + result;
+                    }
+                }
+                else
+                {
+                    bool result = BL.Usuario.Update(usuario);
+                    if (result)
+                    {
+                        ViewBag.Mensaje = "se ha actualizado correctamente el usuario";
+                    }
+                    else
+                    {
+                        ViewBag.Mensaje = "No se ha podido actualizar correctamente el usuario. Error: " + result;
+                    }
+                }
+            }
+            else
+            {
+                List<ML.Rol> resultRol = BL.Rol.GetAll();
+                usuario.Rol.Roles = resultRol;
+                return View(usuario);
+
+            }
+            return PartialView("Modal");
+        }
+        public ActionResult Delete(int? IdUsuario)
+        {
+            bool result = BL.Usuario.Delete(IdUsuario.Value);
+            if (result)
+            {
+                ViewBag.Mensaje = "Se ha eliminado correctamente el registro";
+            }
+            else
+            {
+                ViewBag.Mensaje = "NO se ha eliminado correctamente el registro. Error: " + result;
+            }
+            return PartialView("Modal");
+        }
+        [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
+        [HttpPost]
         public ActionResult LoginVerificacion(string email, string password)
         {
             var result =  BL.Usuario.GetByEmail(email);
