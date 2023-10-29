@@ -31,7 +31,7 @@ namespace BL
                     collection[1].Value = unidad.Modelo;
                     collection[2] = new SqlParameter("@Marca", SqlDbType.VarChar);
                     collection[2].Value = unidad.Marca;
-                    collection[3] = new SqlParameter("@AñoFabricacion", SqlDbType.Date);
+                    collection[3] = new SqlParameter("@AñoFabricacion", SqlDbType.VarChar);
                     collection[3].Value = unidad.AñoFabricacion;
                     collection[4] = new SqlParameter("@IdEstatusUnidad", SqlDbType.VarChar);
                     collection[4].Value = unidad.IdEstatusUnidad;
@@ -93,7 +93,7 @@ namespace BL
             }
             return unidadlist;
         }
-        public static ML.Unidad GetById(ML.Unidad unidad)
+        public static ML.Unidad GetById(int IdUnidad)
         {
             ML.Unidad result = null;
             try
@@ -106,7 +106,7 @@ namespace BL
 
                     SqlParameter[] collection = new SqlParameter[1];
                     collection[0] = new SqlParameter("@IdUnidad", SqlDbType.Int);
-                    collection[0].Value = unidad.IdUnidad;
+                    collection[0].Value = IdUnidad;
                     cmd.Parameters.AddRange(collection);
 
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -188,6 +188,40 @@ namespace BL
                 return false;
             }
         }
+        public static bool Delete(int IdUnidad)
+        {
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
+                {
+                    string query = "DELETE FROM UnidadEntrega WHERE IdUnidad = @IdUnidad";
 
+                    SqlCommand cmd = new SqlCommand(query, context);
+
+                    SqlParameter[] collection = new SqlParameter[1];
+                    collection[0] = new SqlParameter("@IdUnidad", SqlDbType.Int);
+                    collection[0].Value = IdUnidad;
+
+                    cmd.Parameters.AddRange(collection);
+
+                    context.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    context.Close();
+
+                    if (rowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

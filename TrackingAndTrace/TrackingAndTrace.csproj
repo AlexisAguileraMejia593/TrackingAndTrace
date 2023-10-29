@@ -214,6 +214,8 @@
     <Content Include="Views\Repartidor\Form.cshtml" />
     <Content Include="Views\Repartidor\Modal.cshtml" />
     <Content Include="Views\Unidad\Index.cshtml" />
+    <Content Include="Views\Unidad\Form.cshtml" />
+    <Content Include="Views\Unidad\Modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

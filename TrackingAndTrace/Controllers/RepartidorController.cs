@@ -60,11 +60,11 @@ namespace TrackingAndTrace.Controllers
                     bool result = BL.Repartidor.Update(repartidor);
                     if (result)
                     {
-                        ViewBag.Mensaje = "se ha actualizado correctamente el usuario";
+                        ViewBag.Mensaje = "se ha actualizado correctamente el repartidor";
                     }
                     else
                     {
-                        ViewBag.Mensaje = "No se ha podido actualizar correctamente el usuario. Error: " + result;
+                        ViewBag.Mensaje = "No se ha podido actualizar correctamente el repartidor. Error: " + result;
                     }
                 }
             }
