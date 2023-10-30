@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,14 +9,36 @@ namespace TrackingAndTrace.Controllers
 {
     public class UnidadController : Controller
     {
+        /*
         // GET: Unidad
+         public ActionResult Index()
+         {
+             ML.Unidad unidad = new ML.Unidad();
+             List<ML.Unidad> list = BL.Unidad.GetAll();
+             unidad.Unidades = list;
+             return View(unidad);
+         }
+        */
+
         public ActionResult Index()
         {
-            ML.Unidad unidad = new ML.Unidad();
-            List<ML.Unidad> list = BL.Unidad.GetAll();
-            unidad.Unidades = list;
-            return View(unidad);
+            List<ML.Unidad> unidades = new List<ML.Unidad>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:44387/api/");
+                var responseTask = client.GetAsync("Unidad");
+                responseTask.Wait();
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<IList<ML.Unidad>>();
+                    readTask.Wait();
+                    unidades = readTask.Result.ToList();
+                }
+            }
+            return View(unidades);
         }
+
         [HttpGet]
         public ActionResult Form(int? IdUnidad)
         {
@@ -75,7 +98,7 @@ namespace TrackingAndTrace.Controllers
         }
         public ActionResult Delete(int? IdUnidad)
         {
-            bool result = BL.Unidad.Delete(IdUnidad.Value);
+            var result = BL.Unidad.Delete(IdUnidad.Value);
             if (result)
             {
                 ViewBag.Mensaje = "Se ha eliminado correctamente el registro";

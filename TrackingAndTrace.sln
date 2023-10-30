@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DL", "DL\DL.csproj", "{208D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{D00A3534-CDDE-4CB2-8A30-99B05C088A6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WepAPI", "WepAPI\WepAPI.csproj", "{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D00A3534-CDDE-4CB2-8A30-99B05C088A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D00A3534-CDDE-4CB2-8A30-99B05C088A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D00A3534-CDDE-4CB2-8A30-99B05C088A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
