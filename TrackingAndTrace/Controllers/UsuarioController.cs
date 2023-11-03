@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace TrackingAndTrace.Controllers
 {
@@ -16,35 +17,32 @@ namespace TrackingAndTrace.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ML.Usuario usuario = new ML.Usuario();
-            List<ML.Usuario> list = BL.Usuario.GetAll();
-            usuario.Usuarios = list;
+            ML.Usuario usuario = BL.Usuario.GetAll();
+            var result = usuario.Usuarios;
             return View(usuario);
         }
         [HttpGet]
         public ActionResult Form(int? IdUsuario)
         {
             ML.Usuario usuario = new ML.Usuario();
-            usuario.Rol = new ML.Rol();
-
-            List<ML.Rol> listrol = BL.Rol.GetAll();
+                usuario.Rol = new ML.Rol();
+                ML.Rol rolObj = BL.Rol.GetAll();
+                usuario.Rol.Roles = rolObj.Roles;
 
             if (IdUsuario != null)
-            {
-                var list = BL.Usuario.GetById(IdUsuario.Value);
-                if (list != null)
                 {
+                    var result = BL.Usuario.GetById(IdUsuario.Value);
+                    if (result != null)
+                    {
                     //UNBOXING
-                    usuario = (ML.Usuario)list;
+                    usuario = (ML.Usuario)result;
+                    usuario.Rol.Roles = rolObj.Roles;
                 }
+
             }
-            else 
-            {
-                usuario.Rol.Roles = listrol;
-            }
-            usuario.Rol.Roles = listrol;
-            return View(usuario);
+           return View(usuario);         
         }
+
         [HttpPost]
         public ActionResult Form(ML.Usuario usuario)
         {
@@ -77,10 +75,9 @@ namespace TrackingAndTrace.Controllers
             }
             else
             {
-                List<ML.Rol> resultRol = BL.Rol.GetAll();
-                usuario.Rol.Roles = resultRol;
+                ML.Rol rolObj = BL.Rol.GetAll();
+                usuario.Rol.Roles = rolObj.Roles;
                 return View(usuario);
-
             }
             return PartialView("Modal");
         }

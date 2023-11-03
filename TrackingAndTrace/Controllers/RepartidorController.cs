@@ -12,9 +12,8 @@ namespace TrackingAndTrace.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ML.Repartidor repartidor = new ML.Repartidor();
-            List<ML.Repartidor> list = BL.Repartidor.GetAll();
-            repartidor.Repartidores = list;
+            ML.Repartidor repartidor = BL.Repartidor.GetAll();
+            var result = repartidor.Repartidores;
             return View(repartidor);
         }
         [HttpGet]

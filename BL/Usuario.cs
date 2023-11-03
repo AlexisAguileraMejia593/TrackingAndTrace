@@ -72,9 +72,9 @@ namespace BL
             }
             return result;
         }
-        public static object GetById(int IdUsuario)
+        public static ML.Usuario GetById(int IdUsuario)
         {
-            object result = null;
+            ML.Usuario result = null;
             try
             {
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
@@ -95,8 +95,7 @@ namespace BL
                         usuario.ApellidoMaterno = query.ApellidoMaterno;
                         usuario.Rol.Tipo = query.Tipo;
 
-                        // Boxing
-                        result = (object)usuario;
+                        result = usuario;
                     }
                 }
             }
