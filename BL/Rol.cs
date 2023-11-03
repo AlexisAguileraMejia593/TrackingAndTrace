@@ -8,9 +8,10 @@ namespace BL
 {
     public class Rol
     {
-        public static List<ML.Rol> GetAll()
+        public static ML.Rol GetAll()
         {
-            List<ML.Rol> rollist = new List<ML.Rol>();
+            ML.Rol rolobject = new ML.Rol();
+            rolobject.Roles = new List<ML.Rol>();
             try
             {
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
@@ -23,7 +24,7 @@ namespace BL
                             ML.Rol rol = new ML.Rol();
                             rol.IdRol = registro.IdRol;
                             rol.Tipo = registro.Tipo;
-                            rollist.Add(rol);
+                            rolobject.Roles.Add(rol);
                         }
                     }
                 }
@@ -32,7 +33,7 @@ namespace BL
             {
                 Console.WriteLine(ex.Message);
             }
-            return rollist;
+            return rolobject;
         }
     }
 }

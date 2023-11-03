@@ -22,7 +22,7 @@ namespace TrackingAndTrace.Controllers
 
         public ActionResult Index()
         {
-            List<ML.Unidad> unidades = new List<ML.Unidad>();
+            ML.Unidad unidades = new ML.Unidad();
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:44387/api/");
@@ -31,9 +31,9 @@ namespace TrackingAndTrace.Controllers
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
                 {
-                    var readTask = result.Content.ReadAsAsync<IList<ML.Unidad>>();
+                    var readTask = result.Content.ReadAsAsync<ML.Unidad>();
                     readTask.Wait();
-                    unidades = readTask.Result.ToList();
+                    unidades = readTask.Result;
                 }
             }
             return View(unidades);

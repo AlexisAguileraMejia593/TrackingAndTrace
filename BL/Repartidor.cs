@@ -9,9 +9,10 @@ namespace BL
 {
     public class Repartidor
     {
-        public static List<ML.Repartidor> GetAll()
+        public static ML.Repartidor GetAll()
         {
-            List<ML.Repartidor> repartidorlist = new List<ML.Repartidor>();
+            ML.Repartidor repartidorobject = new ML.Repartidor();
+            repartidorobject.Repartidores = new List<ML.Repartidor>();
             try
             {
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
@@ -41,7 +42,7 @@ namespace BL
                             repartidor.Telefono = registro.Telefono.Value;
                             repartidor.FechaIngreso = registro.FechaIngreso.Value;
                             repartidor.Fotografia = registro.Fotografia;
-                            repartidorlist.Add(repartidor);
+                            repartidorobject.Repartidores.Add(repartidor);
                         }
                     }
                     else 
@@ -54,7 +55,7 @@ namespace BL
             {
                 Console.WriteLine(ex.Message);
             }
-            return repartidorlist;
+            return repartidorobject;
         }
         public static bool Add(ML.Repartidor repartidor)
         {

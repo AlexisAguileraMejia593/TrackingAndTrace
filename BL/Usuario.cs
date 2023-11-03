@@ -9,9 +9,10 @@ namespace BL
 {
     public class Usuario
     {
-        public static List<ML.Usuario> GetAll()
+        public static ML.Usuario GetAll()
         {
-            List<ML.Usuario> usuariolist = new List<ML.Usuario>();
+            ML.Usuario usuarioObj = new ML.Usuario();
+            usuarioObj.Usuarios = new List<ML.Usuario>();
             try
             {
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
@@ -31,7 +32,7 @@ namespace BL
                             usuario.Nombre = registro.Nombre;
                             usuario.ApellidoPaterno = registro.ApellidoPaterno;
                             usuario.ApellidoMaterno = registro.ApellidoMaterno;
-                            usuariolist.Add(usuario);
+                            usuarioObj.Usuarios.Add(usuario);
                         }
                     }
                 }
@@ -40,7 +41,7 @@ namespace BL
             {
                 Console.WriteLine(ex.Message);
             }
-            return usuariolist;
+            return usuarioObj;
         }
         public static object GetByEmail(string email)
         {

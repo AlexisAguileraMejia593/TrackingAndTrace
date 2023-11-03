@@ -55,9 +55,10 @@ namespace BL
             }
 
         }
-        public static List<ML.Unidad> GetAll()
+        public static ML.Unidad GetAll()
         {
-            List<ML.Unidad> unidades = new List<ML.Unidad>();
+            ML.Unidad unidadesObj = new ML.Unidad();
+            unidadesObj.Unidades = new List<ML.Unidad>();
             try
             {
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
@@ -82,7 +83,7 @@ namespace BL
                             unidad.Marca = row[3].ToString();
                             unidad.AñoFabricacion = row[4].ToString();
                             unidad.IdEstatusUnidad = int.Parse(row[5].ToString());
-                            unidades.Add(unidad);
+                            unidadesObj.Unidades.Add(unidad);
                         }
                     }
                 }
@@ -91,7 +92,7 @@ namespace BL
             {
                 Console.WriteLine(ex.Message);
             }
-            return unidades;
+            return unidadesObj;
         }
 
         public static ML.Unidad GetById(int IdUnidad)
