@@ -10,9 +10,9 @@ namespace WepAPI.Controllers
     [RoutePrefix("api/Unidad")]
     public class UnidadController : ApiController
     {
-        [Route("")]
+        [Route("Add")]
         [HttpPost]
-        public IHttpActionResult Add(ML.Unidad unidad)
+        public IHttpActionResult Add([FromBody]ML.Unidad unidad)
         {
             var result = BL.Unidad.Add(unidad);
             if (result)
@@ -24,10 +24,11 @@ namespace WepAPI.Controllers
                 return Content(HttpStatusCode.BadRequest, result);
             }
         }
-        [Route("")]
+        [Route("Update/{idUnidad?}")]
         [HttpPut]
-        public IHttpActionResult Update(ML.Unidad unidad)
+        public IHttpActionResult Update(int idUnidad, [FromBody] ML.Unidad unidad)
         {
+            unidad.IdUnidad = idUnidad;
             var result = BL.Unidad.Update(unidad);
             if (result)
             {
@@ -39,7 +40,7 @@ namespace WepAPI.Controllers
             }
         }
 
-        [Route("{idUnidad}")]
+        [Route("Delete/{idUnidad?}")]
         [HttpDelete]
         public IHttpActionResult Delete(int idUnidad)
         {
@@ -67,7 +68,7 @@ namespace WepAPI.Controllers
                 return Content(HttpStatusCode.BadRequest, list);
             }
         }
-        [Route("{idUnidad}")]
+        [Route("GetById/{idUnidad?}")]
         [HttpGet]
         public IHttpActionResult GetById(int idUnidad)
         {

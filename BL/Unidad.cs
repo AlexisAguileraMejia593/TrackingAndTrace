@@ -21,7 +21,7 @@ namespace BL
                 //todo lo que ejecute dentro de un using se libera al final
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "INSERT INTO UnidadEntrega(NumeroPlaca, Modelo, Marca, AñoFabricacion, IdEstatusUnidad) VALUES(@NumeroPlaca, @Modelo, @Marca, @AñoFabricacion, @IdEstatusUnidad)" ;
+                    string query = "INSERT INTO UnidadEntrega(NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad) VALUES(@NumeroPlaca, @Modelo, @Marca, @AnoFabricacion, @IdEstatusUnidad)" ;
                     SqlCommand cmd = new SqlCommand(query, context);
                     SqlParameter[] collection = new SqlParameter[5];
 
@@ -31,7 +31,7 @@ namespace BL
                     collection[1].Value = unidad.Modelo;
                     collection[2] = new SqlParameter("@Marca", SqlDbType.VarChar);
                     collection[2].Value = unidad.Marca;
-                    collection[3] = new SqlParameter("@AñoFabricacion", SqlDbType.VarChar);
+                    collection[3] = new SqlParameter("@AnoFabricacion", SqlDbType.VarChar);
                     collection[3].Value = unidad.AñoFabricacion;
                     collection[4] = new SqlParameter("@IdEstatusUnidad", SqlDbType.VarChar);
                     collection[4].Value = unidad.IdEstatusUnidad;
@@ -63,7 +63,7 @@ namespace BL
             {
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "SELECT IdUnidad, NumeroPlaca, Modelo, Marca, AñoFabricacion, IdEstatusUnidad FROM UnidadEntrega";
+                    string query = "SELECT IdUnidad, NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad FROM UnidadEntrega";
 
                     SqlCommand cmd = new SqlCommand(query, context);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -94,7 +94,6 @@ namespace BL
             }
             return unidadesObj;
         }
-
         public static ML.Unidad GetById(int IdUnidad)
         {
             ML.Unidad result = null;
@@ -102,7 +101,7 @@ namespace BL
             {
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "SELECT IdUnidad, NumeroPlaca, Modelo, Marca, AñoFabricacion, IdEstatusUnidad FROM UnidadEntrega WHERE IdUnidad = @IdUnidad";
+                    string query = "SELECT IdUnidad, NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad FROM UnidadEntrega WHERE IdUnidad = @IdUnidad";
 
                     SqlCommand cmd = new SqlCommand(query, context);
 
@@ -151,7 +150,8 @@ namespace BL
                 //todo lo que ejecute dentro de un using se libera al final
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "UPDATE UnidadEntrega SET NumeroPlaca = @NumeroPlaca, Modelo = @Modelo, Marca = @Marca, AñoFabricacion = @AñoFabricacion, IdEstatusUnidad = @IdEstatusUnidad WHERE IdUnidad = @IdUnidad;";
+                    string query = "DECLARE @AnoFabricacion varchar(50);" +
+                        "UPDATE UnidadEntrega SET NumeroPlaca = @NumeroPlaca, Modelo = @Modelo, Marca = @Marca, AnoFabricacion = @AnoFabricacion, IdEstatusUnidad = @IdEstatusUnidad WHERE IdUnidad = @IdUnidad;";
 
                     SqlCommand cmd = new SqlCommand(query, context);
                     SqlParameter[] collection = new SqlParameter[5];
@@ -165,9 +165,9 @@ namespace BL
                     collection[2].Value = unidad.Modelo;
                     collection[3] = new SqlParameter("@Marca", SqlDbType.VarChar);
                     collection[3].Value = unidad.Marca;
-                    collection[4] = new SqlParameter("@AñoFabricacion", SqlDbType.DateTime);
+                    collection[4] = new SqlParameter("@AnoFabricacion", SqlDbType.VarChar);
                     collection[4].Value = unidad.AñoFabricacion;
-                    collection[4] = new SqlParameter("@IdEstatusUnidad", SqlDbType.DateTime);
+                    collection[4] = new SqlParameter("@IdEstatusUnidad", SqlDbType.Int);
                     collection[4].Value = unidad.IdEstatusUnidad;
 
                     cmd.Parameters.AddRange(collection);
