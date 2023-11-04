@@ -57,11 +57,10 @@ namespace BL
             }
             return repartidorobject;
         }
-        public static bool Add(ML.Repartidor repartidor)
+        public static ML.Repartidor Add(ML.Repartidor repartidor)
         {
             try
             {
-                //todo lo que ejecute dentro de un using se libera al final
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
                     DL.Repartidor repartidorEntity = new DL.Repartidor();
@@ -73,21 +72,25 @@ namespace BL
                     repartidorEntity.Telefono = repartidor.Telefono;
                     repartidorEntity.FechaIngreso = repartidor.FechaIngreso;
                     repartidorEntity.Fotografia = repartidor.Fotografia;
+
                     context.Repartidor.Add(repartidorEntity);
                     int rowsAffected = context.SaveChanges();
+
                     if (rowsAffected > 0)
                     {
-                        return true;
+                        // Asigna el Id del repartidorEntity a repartidor
+                        repartidor.IdRepartidor = repartidorEntity.IdRepartidor;
+                        return repartidor;
                     }
                     else
                     {
-                        return false;
+                        return null;
                     }
                 }
             }
             catch (Exception ex)
             {
-                return false;
+                return null;
             }
         }
         public static ML.Repartidor GetById(int IdRepartidor)

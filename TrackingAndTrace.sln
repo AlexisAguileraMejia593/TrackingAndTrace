@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{D00A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WepAPI", "WepAPI\WepAPI.csproj", "{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCFService", "WCFService\WCFService.csproj", "{DCC89FE5-ECF2-45FF-846C-A54D48B166B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B02B4BB-CDF1-42B7-8DB3-4520A26CB8FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCC89FE5-ECF2-45FF-846C-A54D48B166B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCC89FE5-ECF2-45FF-846C-A54D48B166B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCC89FE5-ECF2-45FF-846C-A54D48B166B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCC89FE5-ECF2-45FF-846C-A54D48B166B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
