@@ -44,8 +44,8 @@ namespace TrackingAndTrace.Controllers
             {
                 if (repartidor.IdRepartidor == 0)
                 {
-                    bool result = BL.Repartidor.Add(repartidor);
-                    if (result)
+                    var result = BL.Repartidor.Add(repartidor);
+                    if (result != null)
                     {
                         ViewBag.Mensaje = "Se ha ingresado correctamente el repartidor";
                     }
@@ -56,8 +56,8 @@ namespace TrackingAndTrace.Controllers
                 }
                 else
                 {
-                    bool result = BL.Repartidor.Update(repartidor);
-                    if (result)
+                    var result = BL.Repartidor.Update(repartidor);
+                    if (result != null)
                     {
                         ViewBag.Mensaje = "se ha actualizado correctamente el repartidor";
                     }

@@ -18,12 +18,23 @@
           <Property Name="FechaIngreso" Type="date" />
           <Property Name="Fotografia" Type="varchar(max)" />
         </EntityType>
-        <EntityType Name="ROL">
+        <EntityType Name="Rol">
           <Key>
             <PropertyRef Name="IdRol" />
           </Key>
           <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Tipo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UnidadEntrega">
+          <Key>
+            <PropertyRef Name="IdUnidad" />
+          </Key>
+          <Property Name="IdUnidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroPlaca" Type="varchar" MaxLength="50" />
+          <Property Name="Modelo" Type="varchar" MaxLength="50" />
+          <Property Name="Marca" Type="varchar" MaxLength="50" />
+          <Property Name="AnoFabricacion" Type="varchar" MaxLength="50" />
+          <Property Name="IdEstatusUnidad" Type="int" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -38,11 +49,11 @@
           <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" />
           <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
         </EntityType>
-        <Association Name="FK__Usuario__IdRol__145C0A3F">
-          <End Role="ROL" Type="Self.ROL" Multiplicity="0..1" />
+        <Association Name="FK__Usuario__Apellid__398D8EEE">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ROL">
+            <Principal Role="Rol">
               <PropertyRef Name="IdRol" />
             </Principal>
             <Dependent Role="Usuario">
@@ -82,10 +93,11 @@
         </Function>
         <EntityContainer Name="TrackingAndTraceModelStoreContainer">
           <EntitySet Name="Repartidor" EntityType="Self.Repartidor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ROL" EntityType="Self.ROL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnidadEntrega" EntityType="Self.UnidadEntrega" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Usuario__IdRol__145C0A3F" Association="Self.FK__Usuario__IdRol__145C0A3F">
-            <End Role="ROL" EntitySet="ROL" />
+          <AssociationSet Name="FK__Usuario__Apellid__398D8EEE" Association="Self.FK__Usuario__Apellid__398D8EEE">
+            <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
@@ -93,6 +105,14 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TrackingAndTraceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Usuario__Apellid__398D8EEE" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="IdUsuario" />
@@ -105,18 +125,27 @@
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ROL" Relationship="TrackingAndTraceModel.FK__Usuario__IdRol__398D8EEE" FromRole="Usuario" ToRole="ROL" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK__Usuario__Apellid__398D8EEE" FromRole="Usuario" ToRole="Rol" />
         </EntityType>
+        <Association Name="FK__Usuario__Apellid__398D8EEE">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TrackingAndTraceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
-          <EntitySet Name="ROL" EntityType="TrackingAndTraceModel.ROL" />
-          <AssociationSet Name="FK__Usuario__IdRol__398D8EEE" Association="TrackingAndTraceModel.FK__Usuario__IdRol__398D8EEE">
-            <End Role="ROL" EntitySet="ROL" />
+          <AssociationSet Name="FK__Usuario__Apellid__398D8EEE" Association="Self.FK__Usuario__Apellid__398D8EEE">
+            <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-          <FunctionImport Name="UsuarioGetByEmail" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetByEmail_Result)">
-          <Parameter Name="Email" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="UsuarioAdd">
             <Parameter Name="UserName" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
@@ -129,6 +158,13 @@
           <FunctionImport Name="UsuarioDelete">
           <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetAll_Result)" />
+          <FunctionImport Name="UsuarioGetByEmail" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetByEmail_Result)">
+          <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetById" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetById_Result)">
+          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="UsuarioUpdate">
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -139,39 +175,10 @@
             <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
             <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetAll_Result)" />
           <FunctionImport Name="RolGetAll" ReturnType="Collection(TrackingAndTraceModel.RolGetAll_Result)" />
-          <FunctionImport Name="UsuarioGetById" ReturnType="Collection(TrackingAndTraceModel.UsuarioGetById_Result)">
-          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Repartidor" EntityType="TrackingAndTraceModel.Repartidor" />
+          <EntitySet Name="UnidadEntrega" EntityType="TrackingAndTraceModel.UnidadEntrega" />
         </EntityContainer>
-        <EntityType Name="ROL">
-          <Key>
-            <PropertyRef Name="IdRol" />
-          </Key>
-          <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Usuario" Relationship="TrackingAndTraceModel.FK__Usuario__IdRol__398D8EEE" FromRole="ROL" ToRole="Usuario" />
-        </EntityType>
-        <Association Name="FK__Usuario__IdRol__398D8EEE">
-          <End Type="TrackingAndTraceModel.ROL" Role="ROL" Multiplicity="0..1" />
-          <End Type="TrackingAndTraceModel.Usuario" Role="Usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ROL">
-              <PropertyRef Name="IdRol" />
-            </Principal>
-            <Dependent Role="Usuario">
-              <PropertyRef Name="IdRol" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="UsuarioGetByEmail_Result">
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="IdRol" Nullable="false" />
-          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
-        </ComplexType>
         <ComplexType Name="UsuarioGetAll_Result">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
           <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
@@ -182,8 +189,10 @@
           <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="RolGetAll_Result">
+        <ComplexType Name="UsuarioGetByEmail_Result">
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="IdRol" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="UsuarioGetById_Result">
@@ -195,6 +204,10 @@
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ApellidoPaterno" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="RolGetAll_Result">
+          <Property Type="Int32" Name="IdRol" Nullable="false" />
           <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
         </ComplexType>
         <EntityType Name="Repartidor">
@@ -210,12 +223,31 @@
           <Property Name="FechaIngreso" Type="DateTime" Precision="0" />
           <Property Name="Fotografia" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="UnidadEntrega">
+          <Key>
+            <PropertyRef Name="IdUnidad" />
+          </Key>
+          <Property Name="IdUnidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroPlaca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AnoFabricacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstatusUnidad" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TrackingAndTraceModelStoreContainer" CdmEntityContainer="TrackingAndTraceEntities">
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="TrackingAndTraceModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Usuario">
             <EntityTypeMapping TypeName="TrackingAndTraceModel.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
@@ -230,27 +262,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ROL">
-            <EntityTypeMapping TypeName="TrackingAndTraceModel.ROL">
-              <MappingFragment StoreEntitySet="ROL">
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="UsuarioGetByEmail" FunctionName="TrackingAndTraceModel.Store.UsuarioGetByEmail">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TrackingAndTraceModel.UsuarioGetByEmail_Result">
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UsuarioAdd" FunctionName="TrackingAndTraceModel.Store.UsuarioAdd" />
           <FunctionImportMapping FunctionImportName="UsuarioDelete" FunctionName="TrackingAndTraceModel.Store.UsuarioDelete" />
-          <FunctionImportMapping FunctionImportName="UsuarioUpdate" FunctionName="TrackingAndTraceModel.Store.UsuarioUpdate" />
           <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="TrackingAndTraceModel.Store.UsuarioGetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TrackingAndTraceModel.UsuarioGetAll_Result">
@@ -265,10 +278,12 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="RolGetAll" FunctionName="TrackingAndTraceModel.Store.RolGetAll">
+          <FunctionImportMapping FunctionImportName="UsuarioGetByEmail" FunctionName="TrackingAndTraceModel.Store.UsuarioGetByEmail">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="TrackingAndTraceModel.RolGetAll_Result">
+              <ComplexTypeMapping TypeName="TrackingAndTraceModel.UsuarioGetByEmail_Result">
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Tipo" ColumnName="Tipo" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -288,6 +303,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioUpdate" FunctionName="TrackingAndTraceModel.Store.UsuarioUpdate" />
+          <FunctionImportMapping FunctionImportName="RolGetAll" FunctionName="TrackingAndTraceModel.Store.RolGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TrackingAndTraceModel.RolGetAll_Result">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="Repartidor">
             <EntityTypeMapping TypeName="TrackingAndTraceModel.Repartidor">
               <MappingFragment StoreEntitySet="Repartidor">
@@ -299,6 +323,18 @@
                 <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnidadEntrega">
+            <EntityTypeMapping TypeName="TrackingAndTraceModel.UnidadEntrega">
+              <MappingFragment StoreEntitySet="UnidadEntrega">
+                <ScalarProperty Name="IdEstatusUnidad" ColumnName="IdEstatusUnidad" />
+                <ScalarProperty Name="AnoFabricacion" ColumnName="AnoFabricacion" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="NumeroPlaca" ColumnName="NumeroPlaca" />
+                <ScalarProperty Name="IdUnidad" ColumnName="IdUnidad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -319,7 +355,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

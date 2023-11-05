@@ -56,10 +56,15 @@
   <ItemGroup>
     <Compile Include="Conexion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Repartidor.cs">
       <DependentUpon>TrackingAndTrace.tt</DependentUpon>
     </Compile>
-    <Compile Include="ROL.cs">
+    <Compile Include="Rol.cs">
       <DependentUpon>TrackingAndTrace.tt</DependentUpon>
     </Compile>
     <Compile Include="RolGetAll_Result.cs">
@@ -80,6 +85,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TrackingAndTrace.edmx</DependentUpon>
     </Compile>
+    <Compile Include="UnidadEntrega.cs">
+      <DependentUpon>TrackingAndTrace.tt</DependentUpon>
+    </Compile>
     <Compile Include="Usuario.cs">
       <DependentUpon>TrackingAndTrace.tt</DependentUpon>
     </Compile>
@@ -96,6 +104,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <EntityDeploy Include="TrackingAndTrace.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TrackingAndTrace.Designer.cs</LastGenOutput>
@@ -103,6 +115,9 @@
     <None Include="TrackingAndTrace.edmx.diagram">
       <DependentUpon>TrackingAndTrace.edmx</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="TrackingAndTrace.Context.tt">
@@ -115,9 +130,6 @@
       <DependentUpon>TrackingAndTrace.edmx</DependentUpon>
       <LastGenOutput>TrackingAndTrace.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -12,15 +12,13 @@ namespace DL
     using System;
     using System.Collections.Generic;
     
-    public partial class Repartidor
+    public partial class UnidadEntrega
     {
-        public int IdRepartidor { get; set; }
-        public string Nombre { get; set; }
-        public string ApellidoPaterno { get; set; }
-        public string ApellidoMaterno { get; set; }
-        public Nullable<int> IdUnidadAsignada { get; set; }
-        public Nullable<int> Telefono { get; set; }
-        public Nullable<System.DateTime> FechaIngreso { get; set; }
-        public string Fotografia { get; set; }
+        public int IdUnidad { get; set; }
+        public string NumeroPlaca { get; set; }
+        public string Modelo { get; set; }
+        public string Marca { get; set; }
+        public string AnoFabricacion { get; set; }
+        public Nullable<int> IdEstatusUnidad { get; set; }
     }
 }

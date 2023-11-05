@@ -17,16 +17,6 @@ namespace WCFService
             Repartidor newRepartidor = BL.Repartidor.Add(repartidor);
             return newRepartidor;
         }
-        public bool Update(ML.Repartidor repartidor)
-        {
-            return BL.Repartidor.Update(repartidor);
-        }
-
-        public bool Delete(int IdRepartidor)
-        {
-            return BL.Repartidor.Delete(IdRepartidor);
-        }
-
         Repartidor IServiceRepartidor.Update(Repartidor repartidor)
         {
             throw new NotImplementedException();
