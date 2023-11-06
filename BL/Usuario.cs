@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace BL
                             ML.Usuario usuario = new ML.Usuario();
                             usuario.IdUsuario = registro.IdUsuario;
                             usuario.UserName = registro.UserName;
-                            usuario.Password = registro.Password;
+                            usuario.Password = registro.Password.ToString();
                             usuario.Rol = new ML.Rol();
                             usuario.Rol.IdRol = registro.IdRol.Value;
                             usuario.Email = registro.Email;
@@ -57,7 +58,7 @@ namespace BL
                         ML.Usuario usuario = new ML.Usuario();
                         usuario.Rol = new ML.Rol();
                         usuario.Email = query.Email;
-                        usuario.Password = query.Password;
+                        usuario.Password = query.Password.ToString();
                         usuario.Rol.IdRol = query.IdRol;
                         usuario.Rol.Tipo = query.Tipo;
 
@@ -86,7 +87,7 @@ namespace BL
                         ML.Usuario usuario = new ML.Usuario();
                         usuario.IdUsuario = query.IdUsuario;
                         usuario.UserName = query.UserName;
-                        usuario.Password = query.Password;
+                        usuario.Password = query.Password.ToString();
                         usuario.Rol = new ML.Rol();
                         usuario.Rol.IdRol = query.IdRol;
                         usuario.Email = query.Email;
@@ -105,15 +106,16 @@ namespace BL
             }
             return result;
         }
-        public static bool Add(ML.Usuario usuario)
+        public static string Add(ML.Usuario usuario)
         {
             try
             {
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
+                    string hashedPassword = EncryptPassword(usuario.Password); // Aplica la función de hash a la contraseña
                     var query = context.UsuarioAdd(
                         usuario.UserName,
-                        usuario.Password,
+                        hashedPassword,
                         usuario.Rol.IdRol,
                         usuario.Email,
                         usuario.Nombre,
@@ -123,29 +125,34 @@ namespace BL
 
                     if (query > 0)
                     {
-                        return true;
+                        return "true";
                     }
                     else
                     {
-                        return false;
+                        return "false";
                     }
                 }
             }
             catch (Exception ex)
             {
-                return false;
-            }            
+                return "false";
+            }
         }
+
+
+
+
         public static bool Update(ML.Usuario usuario)
         {
             try
             {
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
+                    string hashedPassword = EncryptPassword(usuario.Password);
                     var query = context.UsuarioUpdate(
                         usuario.IdUsuario,
                         usuario.UserName,
-                        usuario.Password,
+                        hashedPassword,
                         usuario.Rol.IdRol,
                         usuario.Email,
                         usuario.Nombre,
@@ -177,7 +184,7 @@ namespace BL
                     var registro = context.UsuarioDelete(IdUsuario);
                     if (registro > 0)
                     {
-                         return true;
+                        return true;
                     }
                     else
                     {
@@ -188,6 +195,20 @@ namespace BL
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+        public static string EncryptPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
             }
         }
     }

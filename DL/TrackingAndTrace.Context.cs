@@ -27,10 +27,15 @@ namespace DL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Rol> Rol { get; set; }
-        public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Repartidor> Repartidor { get; set; }
         public virtual DbSet<UnidadEntrega> UnidadEntrega { get; set; }
+        public virtual DbSet<Rol> Rol { get; set; }
+        public virtual DbSet<Usuario> Usuario { get; set; }
+    
+        public virtual ObjectResult<RolGetAll_Result> RolGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RolGetAll_Result>("RolGetAll");
+        }
     
         public virtual int UsuarioAdd(string userName, string password, Nullable<int> idRol, string email, string nombre, string apellidoPaterno, string apellidoMaterno)
         {
@@ -132,11 +137,6 @@ namespace DL
                 new ObjectParameter("ApellidoMaterno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioUpdate", idUsuarioParameter, userNameParameter, passwordParameter, idRolParameter, emailParameter, nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter);
-        }
-    
-        public virtual ObjectResult<RolGetAll_Result> RolGetAll()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RolGetAll_Result>("RolGetAll");
         }
     }
 }

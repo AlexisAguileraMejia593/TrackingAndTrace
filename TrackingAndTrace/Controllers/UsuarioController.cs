@@ -50,8 +50,8 @@ namespace TrackingAndTrace.Controllers
             {
                 if (usuario.IdUsuario == 0)
                 {
-                    bool result = BL.Usuario.Add(usuario);
-                    if (result)
+                    var result = BL.Usuario.Add(usuario);
+                    if (result != null)
                     {
                         ViewBag.Mensaje = "Se ha ingresado correctamente el usuario";
                     }
@@ -102,11 +102,13 @@ namespace TrackingAndTrace.Controllers
         [HttpPost]
         public ActionResult LoginVerificacion(string email, string password)
         {
-            var result =  BL.Usuario.GetByEmail(email);
+            var result = BL.Usuario.GetByEmail(email);
+
             if (result != null)
             {
                 ML.Usuario usuario = (ML.Usuario)result;
-                if (password == usuario.Password)
+                string hashedPassword = EncryptPassword(password); // Aplica la función de hash a la contraseña ingresada
+                if (hashedPassword == usuario.Password) // Compara el hash de la contraseña ingresada con el hash almacenado
                 {
                     Session["Role"] = usuario.Rol.Tipo;
                     return RedirectToAction("index", "Home");
@@ -116,8 +118,6 @@ namespace TrackingAndTrace.Controllers
                     ViewBag.Mensaje = "Contraseña Incorrecta";
                     ViewBag.Correo = false;
                     return RedirectToAction("Login", "Usuario");
-
-
                 }
             }
             else
@@ -126,8 +126,8 @@ namespace TrackingAndTrace.Controllers
                 ViewBag.Correo = false;
                 return PartialView("Modal");
             }
-
         }
+
         public static string EncryptPassword(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())
