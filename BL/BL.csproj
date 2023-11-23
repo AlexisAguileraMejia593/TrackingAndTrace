@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entrega.cs" />
+    <Compile Include="Paquetes.cs" />
     <Compile Include="Repartidor.cs" />
     <Compile Include="Rol.cs" />
     <Compile Include="Unidad.cs" />

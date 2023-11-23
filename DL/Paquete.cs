@@ -12,25 +12,23 @@ namespace DL
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class Paquete
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Usuario()
+        public Paquete()
         {
-            this.Repartidor = new HashSet<Repartidor>();
+            this.Entrega = new HashSet<Entrega>();
         }
     
-        public int IdUsuario { get; set; }
-        public string UserName { get; set; }
-        public Nullable<int> IdRol { get; set; }
-        public string Email { get; set; }
-        public string Nombre { get; set; }
-        public string ApellidoPaterno { get; set; }
-        public string ApellidoMaterno { get; set; }
-        public string Password { get; set; }
+        public int IdPaquete { get; set; }
+        public string Detalle { get; set; }
+        public string Peso { get; set; }
+        public string DireccionOrigen { get; set; }
+        public string DireccionEntrega { get; set; }
+        public Nullable<System.DateTime> FechaEstimadaEntrega { get; set; }
+        public string CodigoRastreo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Repartidor> Repartidor { get; set; }
-        public virtual Rol Rol { get; set; }
+        public virtual ICollection<Entrega> Entrega { get; set; }
     }
 }

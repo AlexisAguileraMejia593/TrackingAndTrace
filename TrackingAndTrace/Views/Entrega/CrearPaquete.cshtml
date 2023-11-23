@@ -1,0 +1,215 @@
+﻿@model ML.Paquete
+@{
+    ViewBag.Title = "CrearPaquete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<h2>Index</h2>
+
+<style>
+    #map {
+        height: 300px;
+    }
+</style>
+<script>
+    (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+        key: "AIzaSyCSKBDdPPlfca_zTwyxKiicRQn1qfgRjLw",
+        // Add other bootstrap parameters as needed, using camel case.
+        // Use the 'v' parameter to indicate the version to load (alpha, beta, weekly, etc.)
+    });
+</script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src=" https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<h1>CrearPaquete</h1>
+@Scripts.Render("~/bundles/jquery")
+@using (Html.BeginForm("CrearPaquete", "Entrega", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Detalle)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
+                @Html.TextBoxFor(model => model.Detalle, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Peso)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
+                @Html.TextBoxFor(model => model.Peso, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.DireccionOrigen)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
+                @Html.TextBoxFor(model => model.DireccionOrigen, new { @class = "form-control", @id = "DireccionOrigen", @placeholder = "Ingresa la dirección de origen" }) <button id="editarDireccionOrigen" class="accordion-body" type="button" style="background-color: green">Editar</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.DireccionEntrega)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
+                @Html.TextBoxFor(model => model.DireccionEntrega, new { @class = "form-control", @id="DireccionEntrega", @placeholder = "Ingresa la direccion de entrega" })<button id="editarDireccionEntrega" class="accordion-body" type="button" style="background-color: red">Editar</button>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button id="btnGuardar" class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+            <a id="btnCancelar" onmouseover="CambiarColor()" class="btn btn-danger" href="@Url.Action("Paquetes", "Entrega")"><i class="fa-solid fa-right-from-bracket"></i> Volver</a>
+        </div>
+    </div>
+}
+<h3>My Google Maps Demo</h3>
+<div id="map" class="border-top border-secondary" border-3></div>
+@section Scripts{
+    <script type="text/javascript">
+        $("#btnGuardar").mouseenter(function () {
+            $("#btnGuardar").addClass("fa-beat").mouseout(function () {
+                $("#btnGuardar").removeClass("fa-beat")
+            })
+        })
+        function CambiarColor() {
+            $("#btnCancelar").toggleClass("btn-danger btn-secondary")
+        }
+        $("#DireccionOrigen").prop('disabled', true);
+        $("#DireccionEntrega").prop('disabled', true);
+
+        let map;
+        let marker;
+
+        async function initMap() {
+
+            const position = {
+                lat: 19.43057908889617,
+                lng: -99.16173851534197,
+            };
+            const { Map } = await google.maps.importLibrary("maps");
+
+            map = new Map(document.getElementById("map"), {
+                zoom: 4,
+                center: position,
+                mapId: "DEMO_MAP_ID",
+            });
+
+            let infoWindow = new google.maps.InfoWindow({
+                content: "Presiona la locacion",
+                position: position,
+            });
+
+            infoWindow.open(map);
+
+            document.getElementById('editarDireccionOrigen').addEventListener('click', function () {
+                const direccionInput = document.getElementById('DireccionOrigen');
+                direccionInput.disabled = !direccionInput.disabled;
+
+                if (!direccionInput.disabled) {
+                    const address = direccionInput.value;
+
+                    const geocoder = new google.maps.Geocoder();
+
+                    geocoder.geocode({ address: address }, function (results, status) {
+                        if (status === 'OK') {
+                            const position = results[0].geometry.location;
+                            if (marker) {
+                                marker.setPosition(position);
+                            } else {
+                                marker = new google.maps.Marker({
+                                    position: position,
+                                    map: map
+                                });
+                            }
+                            map.setCenter(position);
+                        } else {
+                            alert('La geocodificación no fue exitosa debido a: ' + status);
+                        }
+                    });
+                } else {
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+                }
+            });
+
+            document.getElementById('editarDireccionEntrega').addEventListener('click', function () {
+                const direccionInput = document.getElementById('DireccionEntrega');
+                direccionInput.disabled = !direccionInput.disabled;
+
+                if (!direccionInput.disabled) {
+                    const address = direccionInput.value;
+
+                    const geocoder = new google.maps.Geocoder();
+
+                    geocoder.geocode({ address: address }, function (results, status) {
+                        if (status === 'OK') {
+                            const position = results[0].geometry.location;
+                            if (marker) {
+                                marker.setPosition(position);
+                            } else {
+                                marker = new google.maps.Marker({
+                                    position: position,
+                                    map: map
+                                });
+                            }
+                            map.setCenter(position);
+                        } else {
+                            alert('La geocodificación no fue exitosa debido a: ' + status);
+                        }
+                    });
+                } else {
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+                }
+            });
+
+            let markers = {};
+            let markerCount = 0;
+
+            google.maps.event.addListener(map, "click", function (event) {
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ latLng: event.latLng }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[0]) {
+                            let iconUrl;
+                            let inputId;
+                            if (markerCount === 0 || !markers['DireccionOrigen']) {
+                                $("#DireccionOrigen").val(results[0].formatted_address);
+                                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'; 
+                                inputId = 'DireccionOrigen';
+                            } else if (markerCount === 1 || !markers['DireccionEntrega']) {
+                                $("#DireccionEntrega").val(results[0].formatted_address);
+                                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'; 
+                                inputId = 'DireccionEntrega';
+                            } else {
+                                alert('Ya has agregado dos marcadores. Por favor, elimina uno antes de agregar otro.');
+                                return;
+                            }
+
+                            const marker = new google.maps.Marker({
+                                position: event.latLng,
+                                map: map,
+                                icon: iconUrl,
+                            });
+
+                            google.maps.event.addListener(marker, 'click', function () {
+                                marker.setMap(null);
+                                $("#" + inputId).val('');
+                                delete markers[inputId];
+                                markerCount--;
+                            });
+
+                            markers[inputId] = marker;
+                            markerCount++;
+                        }
+                    }
+                });
+            });
+        }
+        initMap();
+    </script>
+}

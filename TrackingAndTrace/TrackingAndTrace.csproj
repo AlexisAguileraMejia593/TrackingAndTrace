@@ -176,6 +176,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdministradorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\EntregaController.cs" />
     <Compile Include="Controllers\RepartidorController.cs" />
     <Compile Include="Controllers\UnidadController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -272,6 +273,11 @@
     <Content Include="Views\Unidad\Index.cshtml" />
     <Content Include="Views\Unidad\Form.cshtml" />
     <Content Include="Views\Unidad\Modal.cshtml" />
+    <Content Include="Views\Entrega\Index.cshtml" />
+    <Content Include="Views\Repartidor\UnidaddelRepartidor.cshtml" />
+    <Content Include="Views\Entrega\Paquetes.cshtml" />
+    <Content Include="Views\Entrega\CrearPaquete.cshtml" />
+    <Content Include="Views\Entrega\Modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

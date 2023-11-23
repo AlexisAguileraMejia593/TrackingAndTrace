@@ -13,7 +13,7 @@ namespace ML
         public string Modelo { get; set; }
         public string Marca { get; set; }
         public string AñoFabricacion { get; set; }
-        public int IdEstatusUnidad { get; set; }
+        public ML.EstatusUnidad EstatusUnidad { get; set; }
         public List<Unidad> Unidades { get; set; }
     }
 }

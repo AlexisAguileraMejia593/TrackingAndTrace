@@ -20,13 +20,11 @@
             <tr class="bg-warning">
                 <th>Editar</th>
                 <th>IdRepartidor</th>
-                <th>Nombre</th>
-                <th>ApellidoPaterno</th>
-                <th>ApellidoMaterno</th>
                 <th>IdUnidadAsignada</th>
                 <th>Telefono</th>
                 <th>FechaIngreso</th>
                 <th>Fotografia</th>
+                <th>IdUsuario</th>
                 <th>Eliminar</th>
                 <!-- On cells (`td` or `th`) -->
             </tr>
@@ -37,13 +35,11 @@
                 <tr>
                     <td><a class="btn btn-warning" href="@Url.Action("Form", "Repartidor", new { IdRepartidor = repartidor.IdRepartidor })"><i class="fa-solid fa-pencil fa-bounce" style="color: #332774;"></i></a></td>
                     <td>@repartidor.IdRepartidor</td>
-                    <td>@repartidor.Nombre</td>
-                    <td>@repartidor.ApellidoPaterno</td>
-                    <td>@repartidor.ApellidoMaterno</td>
-                    <td>@repartidor.IdUnidadAsignada</td>
+                    <td>@repartidor.Unidad.IdUnidad</td>
                     <td>@repartidor.Telefono</td>
                     <td>@repartidor.FechaIngreso</td>
                     <td>@repartidor.Fotografia</td>
+                    <td>@repartidor.Usuario.IdUsuario</td>
 
                     <td><a class="btn btn-danger" href="@Url.Action("Delete", "Repartidor", new { IdRepartidor = repartidor.IdRepartidor })" onclick="return confirm('Estas seguro de que quieres eliminar este registro');"> <i class="fa-solid fa-trash fa-beat" style="color: black;"></i></a></td>
                 </tr>

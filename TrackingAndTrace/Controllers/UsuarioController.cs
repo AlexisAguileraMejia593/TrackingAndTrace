@@ -107,10 +107,11 @@ namespace TrackingAndTrace.Controllers
             if (result != null)
             {
                 ML.Usuario usuario = (ML.Usuario)result;
-                string hashedPassword = EncryptPassword(password); // Aplica la función de hash a la contraseña ingresada
-                if (hashedPassword == usuario.Password) // Compara el hash de la contraseña ingresada con el hash almacenado
+                string hashedPassword = EncryptPassword(password);
+                if (hashedPassword == usuario.Password)
                 {
                     Session["Role"] = usuario.Rol.Tipo;
+                    Session["Usuario"] = usuario.IdUsuario;
                     return RedirectToAction("index", "Home");
                 }
                 else

@@ -21,13 +21,11 @@ namespace BL
                                  select new
                                  {
                                      IdRepartidor = repart.IdRepartidor,
-                                     Nombre = repart.Nombre,
-                                     ApellidoPaterno = repart.ApellidoPaterno,
-                                     ApellidoMaterno = repart.ApellidoMaterno,
                                      IdUnidadAsignada = repart.IdUnidadAsignada,
                                      Telefono = repart.Telefono,
                                      FechaIngreso = repart.FechaIngreso,
-                                     Fotografia = repart.Fotografia
+                                     Fotografia = repart.Fotografia,
+                                     IdUsuario = repart.Usuario.IdUsuario
                                  });
                     if (query != null)
                     {
@@ -35,13 +33,13 @@ namespace BL
                         {
                             ML.Repartidor repartidor = new ML.Repartidor();
                             repartidor.IdRepartidor = registro.IdRepartidor;
-                            repartidor.Nombre = registro.Nombre;
-                            repartidor.ApellidoPaterno = registro.ApellidoPaterno;
-                            repartidor.ApellidoMaterno = registro.ApellidoMaterno;
-                            repartidor.IdUnidadAsignada = registro.IdUnidadAsignada.Value;
+                            repartidor.Unidad = new ML.Unidad();
+                            repartidor.Unidad.IdUnidad = registro.IdUnidadAsignada.Value;
                             repartidor.Telefono = registro.Telefono.Value;
                             repartidor.FechaIngreso = registro.FechaIngreso.Value;
                             repartidor.Fotografia = registro.Fotografia;
+                            repartidor.Usuario = new ML.Usuario();
+                            repartidor.Usuario.IdUsuario = registro.IdUsuario;    
                             repartidorobject.Repartidores.Add(repartidor);
                         }
                     }
@@ -64,14 +62,12 @@ namespace BL
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
                     DL.Repartidor repartidorEntity = new DL.Repartidor();
-
-                    repartidorEntity.Nombre = repartidor.Nombre;
-                    repartidorEntity.ApellidoPaterno = repartidor.ApellidoPaterno;
-                    repartidorEntity.ApellidoMaterno = repartidor.ApellidoMaterno;
-                    repartidorEntity.IdUnidadAsignada = repartidor.IdUnidadAsignada;
+                    repartidor.Unidad = new ML.Unidad();
+                    repartidorEntity.IdUnidadAsignada = repartidor.Unidad.IdUnidad;
                     repartidorEntity.Telefono = repartidor.Telefono;
                     repartidorEntity.FechaIngreso = repartidor.FechaIngreso;
                     repartidorEntity.Fotografia = repartidor.Fotografia;
+                    repartidorEntity.IdUsuario = repartidor.Usuario.IdUsuario;
 
                     context.Repartidor.Add(repartidorEntity);
                     int rowsAffected = context.SaveChanges();
@@ -106,13 +102,11 @@ namespace BL
                                  select new
                                  {
                                      IdRepartidor = repart.IdRepartidor,
-                                     Nombre = repart.Nombre,
-                                     ApellidoPaterno = repart.ApellidoPaterno,
-                                     ApellidoMaterno = repart.ApellidoMaterno,
                                      IdUnidadAsignada = repart.IdUnidadAsignada,
                                      Telefono = repart.Telefono,
                                      FechaIngreso = repart.FechaIngreso,
-                                     Fotografia = repart.Fotografia
+                                     Fotografia = repart.Fotografia,
+                                     IdUsuario = repart.Usuario.IdUsuario
                                  });
                     if (query != null)
                     {
@@ -121,13 +115,13 @@ namespace BL
                         {
                             ML.Repartidor repartidorlist = new ML.Repartidor();
                             repartidorlist.IdRepartidor = registro.IdRepartidor;
-                            repartidorlist.Nombre = registro.Nombre;
-                            repartidorlist.ApellidoPaterno = registro.ApellidoPaterno;
-                            repartidorlist.ApellidoMaterno = registro.ApellidoMaterno;
-                            repartidorlist.IdUnidadAsignada = registro.IdUnidadAsignada.Value;
+                            repartidorlist.Unidad = new ML.Unidad();
+                            repartidorlist.Unidad.IdUnidad = registro.IdUnidadAsignada.Value;
                             repartidorlist.Telefono = registro.Telefono.Value;
                             repartidorlist.FechaIngreso = registro.FechaIngreso.Value;
                             repartidorlist.Fotografia = registro.Fotografia;
+                            repartidorlist.Usuario = new ML.Usuario();
+                            repartidorlist.Usuario.IdUsuario = registro.IdUsuario;
                             // Boxing
                             object boxedRepartidor = repartidorlist;
                             list.Add(repartidorlist);
@@ -153,13 +147,12 @@ namespace BL
                                  select a).SingleOrDefault();
                     if (query != null)
                     {
-                        query.Nombre = repartidor.Nombre.ToString();
-                        query.ApellidoPaterno = repartidor.ApellidoPaterno;
-                        query.ApellidoMaterno = repartidor.ApellidoMaterno;
-                        query.IdUnidadAsignada = repartidor.IdUnidadAsignada;
+                        repartidor.Unidad = new ML.Unidad();
+                        query.IdUnidadAsignada = repartidor.Unidad.IdUnidad;
                         query.Telefono = repartidor.Telefono;
                         query.FechaIngreso = repartidor.FechaIngreso;
                         query.Fotografia = repartidor.Fotografia;
+                        query.IdUsuario = repartidor.Usuario.IdUsuario;
                         context.SaveChanges();
                         return true;
                     }
@@ -174,6 +167,7 @@ namespace BL
                 return false;
             }
         }
+
         public static bool Delete(int IdRepartidor)
         {
             try
@@ -199,6 +193,80 @@ namespace BL
             {
                 return false;
             }
+        }
+        public static ML.Repartidor GetByIdUsuario(int IdUsuario)
+        {
+            ML.Repartidor result = null;
+            try
+            {
+                using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
+                {
+                    var query = (from repartidor in context.Repartidor
+                                  join unidadEntrega in context.UnidadEntrega on repartidor.IdUnidadAsignada equals unidadEntrega.IdUnidad
+                                  join usuario in context.Usuario on repartidor.IdUsuario equals usuario.IdUsuario
+                                  join estatusUnidad in context.EstatusUnidad on unidadEntrega.IdEstatusUnidad equals estatusUnidad.IdEstatus
+                                  where usuario.IdUsuario == IdUsuario
+                                  select new
+                                  {
+                                      IdRepartidor = repartidor.IdRepartidor,
+                                      IdUnidadAsignada = repartidor.IdUnidadAsignada,
+                                      Telefono = repartidor.Telefono,
+                                      FechaIngreso = repartidor.FechaIngreso,
+                                      Fotografia = repartidor.Fotografia,
+                                      IdUsuario = usuario.IdUsuario,
+                                      UserName = usuario.UserName,
+                                      IdRol = usuario.IdRol,
+                                      Email = usuario.Email,
+                                      Nombre = usuario.Nombre,
+                                      ApellidoPaterno = usuario.ApellidoPaterno,
+                                      ApellidoMaterno = usuario.ApellidoMaterno,
+                                      Password = usuario.Password,
+                                      IdUnidad = unidadEntrega.IdUnidad,
+                                      NumeroPlaca = unidadEntrega.NumeroPlaca,
+                                      Modelo = unidadEntrega.Modelo,
+                                      Marca = unidadEntrega.Marca,
+                                      AnoFabricacion = unidadEntrega.AnoFabricacion,
+                                      IdEstatus = estatusUnidad.IdEstatus,
+                                      Estatus = estatusUnidad.Estatus
+                                  }).ToList();
+                    if (query != null)
+                    {
+                        List<ML.Repartidor> list = new List<ML.Repartidor>();
+                        foreach (var registro in query)
+                        {
+                            ML.Repartidor repartidorlist = new ML.Repartidor();
+                            repartidorlist.Telefono = registro.Telefono.Value;
+                            repartidorlist.FechaIngreso = registro.FechaIngreso.Value;
+                            repartidorlist.Fotografia = registro.Fotografia;
+                            repartidorlist.IdRepartidor = registro.IdRepartidor;
+                            repartidorlist.Unidad = new ML.Unidad();
+                            repartidorlist.Unidad.IdUnidad = registro.IdUnidad;
+                            repartidorlist.Unidad.NumeroPlaca = registro.NumeroPlaca;
+                            repartidorlist.Unidad.Modelo = registro.Modelo;
+                            repartidorlist.Unidad.Marca = registro.Marca;
+                            repartidorlist.Unidad.AñoFabricacion = registro.AnoFabricacion;
+                            repartidorlist.Usuario = new ML.Usuario();
+                            repartidorlist.Usuario.IdUsuario = registro.IdUsuario;
+                            repartidorlist.Usuario.UserName = registro.UserName;
+                            repartidorlist.Usuario.Nombre = registro.Nombre;
+                            repartidorlist.Usuario.ApellidoPaterno = registro.ApellidoPaterno;
+                            repartidorlist.Usuario.ApellidoMaterno = registro.ApellidoMaterno;
+                            repartidorlist.Unidad.EstatusUnidad = new ML.EstatusUnidad();
+                            repartidorlist.Unidad.EstatusUnidad.IdEstatus = registro.IdEstatus;
+                            repartidorlist.Unidad.EstatusUnidad.Estatus = registro.Estatus;
+                            // Boxing
+                            object boxedRepartidor = repartidorlist;
+                            list.Add(repartidorlist);
+                        }
+                        result = list.FirstOrDefault();
+                    }
+                }
+            }
+            catch
+            {
+                // Handle exception
+            }
+            return result;
         }
     }
 }

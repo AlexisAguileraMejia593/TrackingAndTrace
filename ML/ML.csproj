@@ -41,6 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entrega.cs" />
+    <Compile Include="EstatusEntrega.cs" />
+    <Compile Include="EstatusUnidad.cs" />
+    <Compile Include="Paquete.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repartidor.cs" />
     <Compile Include="Rol.cs" />

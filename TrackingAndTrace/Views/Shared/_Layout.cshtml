@@ -18,17 +18,24 @@
 
             @{
                 var rol = Context.Session["Role"] as string;
+                var usuario = Convert.ToInt32(Context.Session["Usuario"]);
             }
 
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-
                     @if (rol == "Administrador")
                     {
-                        <li>@Html.ActionLink("Usuario", "Index", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Administrador", "Index", "Administrador", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Repartidor", "Index", "Repartidor", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Unidad", "Index", "Unidad", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Selecciona un rol
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@Url.Action("Index", "Usuario")">Usuario</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Administrador")">Administrador</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Repartidor")">Repartidor</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Unidad")">Unidad</a>
+                            </div>
+                        </li>
                     }
                     else if (rol == "Usuario")
                     {
@@ -36,15 +43,32 @@
                     }
                     else if (rol == "Repartidor")
                     {
-
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Selecciona un rol
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@Url.Action("Index", "Usuario")">Usuario</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Administrador")">Administrador</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Repartidor")">Repartidor</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Unidad")">Unidad</a>
+                                <a class="dropdown-item" href="@Url.Action("UnidaddelRepartidor", "Repartidor")">Unidad del Repartidor</a>
+                            </div>
+                        </li>
                     }
                     else
                     {
+                        <li>@Html.ActionLink("Paquetes", "Paquetes", "Entrega", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Iniciar Sesion ", "Login", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                 </ul>
                 <div class="navbar-nav">
-                        <li>@Html.ActionLink("Iniciar Sesion ", "Login", "Usuario", new { area = "" }, new { @class = "nav-link" })</li>                    
+                    <div class="container-fluid">
+                        <form class="d-flex" role="search" action="/Entrega/Rastrear" method="post">
+                            <input class="form-control me-2" type="search" placeholder="Codigo de Rastreo" aria-label="Search" name="codigoRastreo">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,7 +80,8 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

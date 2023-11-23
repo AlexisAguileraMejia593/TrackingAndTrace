@@ -34,7 +34,7 @@ namespace BL
                     collection[3] = new SqlParameter("@AnoFabricacion", SqlDbType.VarChar);
                     collection[3].Value = unidad.AñoFabricacion;
                     collection[4] = new SqlParameter("@IdEstatusUnidad", SqlDbType.VarChar);
-                    collection[4].Value = unidad.IdEstatusUnidad;
+                    collection[4].Value = unidad.EstatusUnidad.IdEstatus;
 
                     cmd.Parameters.AddRange(collection);
                     cmd.Connection.Open();
@@ -82,7 +82,8 @@ namespace BL
                             unidad.Modelo = row[2].ToString();
                             unidad.Marca = row[3].ToString();
                             unidad.AñoFabricacion = row[4].ToString();
-                            unidad.IdEstatusUnidad = int.Parse(row[5].ToString());
+                            unidad.EstatusUnidad = new ML.EstatusUnidad();
+                            unidad.EstatusUnidad.IdEstatus = int.Parse(row[5].ToString());
                             unidadesObj.Unidades.Add(unidad);
                         }
                     }
@@ -127,7 +128,8 @@ namespace BL
                         unidadlist.Modelo = row[2].ToString();
                         unidadlist.Marca = row[3].ToString();
                         unidadlist.AñoFabricacion = row[4].ToString();
-                        unidadlist.IdEstatusUnidad = int.Parse(row[5].ToString());
+                        unidadlist.EstatusUnidad = new ML.EstatusUnidad();
+                        unidadlist.EstatusUnidad.IdEstatus = int.Parse(row[5].ToString());
 
                         //boxing
 
@@ -168,7 +170,7 @@ namespace BL
                     collection[4] = new SqlParameter("@AnoFabricacion", SqlDbType.VarChar);
                     collection[4].Value = unidad.AñoFabricacion;
                     collection[4] = new SqlParameter("@IdEstatusUnidad", SqlDbType.Int);
-                    collection[4].Value = unidad.IdEstatusUnidad;
+                    collection[4].Value = unidad.EstatusUnidad.IdEstatus;
 
                     cmd.Parameters.AddRange(collection);
                     cmd.Connection.Open();

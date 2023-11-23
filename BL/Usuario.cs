@@ -56,6 +56,7 @@ namespace BL
                     if (query != null)
                     {
                         ML.Usuario usuario = new ML.Usuario();
+                        usuario.IdUsuario = query.IdUsuario;
                         usuario.Rol = new ML.Rol();
                         usuario.Email = query.Email;
                         usuario.Password = query.Password.ToString();

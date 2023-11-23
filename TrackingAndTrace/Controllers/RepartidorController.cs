@@ -86,5 +86,12 @@ namespace TrackingAndTrace.Controllers
             }
             return PartialView("Modal");
         }
+        public ActionResult UnidaddelRepartidor()
+        {
+            int IdUsuario = Convert.ToInt32(Session["Usuario"]);
+            ML.Repartidor repartidor = BL.Repartidor.GetByIdUsuario(IdUsuario);
+            var result = repartidor.Repartidores;
+            return View(repartidor);
+        }
     }
 }

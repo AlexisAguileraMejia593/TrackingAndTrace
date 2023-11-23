@@ -39,7 +39,7 @@
                     <td>@unidad.Modelo</td>
                     <td>@unidad.Marca</td>
                     <td>@unidad.AñoFabricacion</td>
-                    <td>@unidad.IdEstatusUnidad</td>
+                    <td>@unidad.EstatusUnidad.IdEstatus</td>
                     <td><a class="btn btn-danger" href="@Url.Action("Delete", "Unidad", new { IdUnidad = unidad.IdUnidad })" onclick="return confirm('Estas seguro de que quieres eliminar este registro');"> <i class="fa-solid fa-trash fa-beat" style="color: black;"></i></a></td>
                 </tr>
             }

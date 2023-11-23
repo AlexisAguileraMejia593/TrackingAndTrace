@@ -4,12 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5ae4da32ebd34e388e36fa94c1cdd7ab" Name="Diagram1">
-        <EntityTypeShape EntityType="TrackingAndTraceModel.Repartidor" Width="1.5" PointX="5.875" PointY="1.25" />
-        <EntityTypeShape EntityType="TrackingAndTraceModel.UnidadEntrega" Width="1.5" PointX="7.875" PointY="1.25" />
-        <EntityTypeShape EntityType="TrackingAndTraceModel.Rol" Width="1.5" PointX="0.75" PointY="1.5" />
+      <Diagram DiagramId="806ea5712d754499a9d0859b95584a10" Name="Diagram1">
+        <EntityTypeShape EntityType="TrackingAndTraceModel.Entrega" Width="1.5" PointX="7.5" PointY="1.125" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.EstatusEntrega" Width="1.5" PointX="5.25" PointY="4.75" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.EstatusUnidad" Width="1.5" PointX="0.75" PointY="5.625" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.Paquete" Width="1.5" PointX="5.25" PointY="7.125" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.Repartidor" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.Rol" Width="1.5" PointX="0.75" PointY="1.625" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.UnidadEntrega" Width="1.5" PointX="3" PointY="5.125" />
         <EntityTypeShape EntityType="TrackingAndTraceModel.Usuario" Width="1.5" PointX="3" PointY="1" />
-        <AssociationConnector Association="TrackingAndTraceModel.FK__Usuario__Apellid__398D8EEE" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdEstat__2E1BDC42" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdPaque__2C3393D0" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdRepar__2D27B809" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__UnidadEnt__IdEst__239E4DCF" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Repartido__IdUni__33D4B598" />
+        <AssociationConnector Association="TrackingAndTraceModel.IdUsuario" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Usuario__IdRol__145C0A3F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
