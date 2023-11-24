@@ -36,8 +36,8 @@
           <Property Name="IdPaquete" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Detalle" Type="varchar" MaxLength="50" />
           <Property Name="Peso" Type="varchar" MaxLength="50" />
-          <Property Name="DireccionOrigen" Type="varchar" MaxLength="50" />
-          <Property Name="DireccionEntrega" Type="varchar" MaxLength="50" />
+          <Property Name="DireccionOrigen" Type="varchar(max)" />
+          <Property Name="DireccionEntrega" Type="varchar(max)" />
           <Property Name="FechaEstimadaEntrega" Type="date" />
           <Property Name="CodigoRastreo" Type="varchar" MaxLength="50" />
         </EntityType>
@@ -375,8 +375,8 @@
           <Property Name="IdPaquete" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Detalle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Peso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DireccionOrigen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DireccionEntrega" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionOrigen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionEntrega" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="FechaEstimadaEntrega" Type="DateTime" Precision="0" />
           <Property Name="CodigoRastreo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Entrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdPaque__2C3393D0" FromRole="Paquete" ToRole="Entrega" />
