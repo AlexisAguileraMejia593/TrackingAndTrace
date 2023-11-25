@@ -8,7 +8,7 @@ namespace BL
 {
     public class Entrega
     {
-        public static ML.Entrega GetAll()
+        public static ML.Entrega GetAll(string nombreRepartidor, string apellidoPaternoRepartidor)
         {
             ML.Entrega entregaobject = new ML.Entrega();
             entregaobject.Entregas = new List<ML.Entrega>();
@@ -19,8 +19,11 @@ namespace BL
                     var query = from entrega in context.Entrega
                                  join paquete in context.Paquete on entrega.IdPaquete equals paquete.IdPaquete
                                  join repartidor in context.Repartidor on entrega.IdRepartidor equals repartidor.IdRepartidor
+                                 join usuario in context.Usuario on repartidor.IdUsuario equals usuario.IdUsuario
+                                 join rol in context.Rol on usuario.IdRol equals rol.IdRol
                                  join estatusentrega in context.EstatusEntrega on entrega.IdEstatusEntrega equals estatusentrega.IdEstatus
-                                 select new
+                                where usuario.Nombre.Contains(nombreRepartidor) && usuario.ApellidoPaterno.Contains(apellidoPaternoRepartidor)
+                                select new
                                  {
                                      entrega.IdEntrega,
                                      entrega.FechaEntrega,
@@ -37,7 +40,16 @@ namespace BL
                                      repartidor.FechaIngreso,
                                      repartidor.Fotografia,
                                      estatusentrega.IdEstatus,
-                                     estatusentrega.Estatus
+                                     estatusentrega.Estatus,
+                                     usuario.IdUsuario,
+                                     usuario.UserName,
+                                     usuario.Email,
+                                     usuario.Nombre,
+                                     usuario.ApellidoPaterno,
+                                     usuario.ApellidoMaterno,
+                                     usuario.Password,
+                                     rol.IdRol,
+                                     rol.Tipo
                                  };
                     if (query != null)
                     {
@@ -47,11 +59,20 @@ namespace BL
                             entrega.IdEntrega = registro.IdEntrega;
                             entrega.FechaEntrega = registro.FechaEntrega.Value;
                             entrega.Paquete = new ML.Paquete();
+                            entrega.Paquete.Detalle = registro.Detalle;
+                            entrega.Paquete.Peso = registro.Peso;
                             entrega.Paquete.DireccionOrigen = registro.DireccionOrigen;
                             entrega.Paquete.DireccionEntrega = registro.DireccionEntrega;
+                            entrega.Paquete.FechaEstimadaEntrega = registro.FechaEstimadaEntrega.Value;
+                            entrega.Paquete.CodigoRastreo = registro.CodigoRastreo;
                             entrega.Repartidor = new ML.Repartidor();
                             entrega.EstatusEntrega = new ML.EstatusEntrega();
                             entrega.EstatusEntrega.Estatus = registro.Estatus;
+                            entrega.Repartidor.Usuario = new ML.Usuario();
+                            entrega.Repartidor.Usuario.Nombre = registro.Nombre;
+                            entrega.Repartidor.Usuario.Rol = new ML.Rol();
+                            entrega.Repartidor.Usuario.Rol.IdRol = registro.IdRol;
+                            entrega.Repartidor.Usuario.Rol.Tipo = registro.Tipo;
                             entregaobject.Entregas.Add(entrega);
                         }
                     }

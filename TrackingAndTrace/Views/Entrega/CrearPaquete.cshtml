@@ -1,7 +1,9 @@
-﻿@model ML.Paquete
+﻿@model ML.Entrega
 @{
     ViewBag.Title = "CrearPaquete";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var rol = Context.Session["Role"] as string;
+    var usuario = Convert.ToInt32(Context.Session["Usuario"]);
 }
 <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <h2>Index</h2>
@@ -18,55 +20,137 @@
         // Use the 'v' parameter to indicate the version to load (alpha, beta, weekly, etc.)
     });
 </script>
-
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script src=" https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<h1>CrearPaquete</h1>
-@Scripts.Render("~/bundles/jquery")
-@using (Html.BeginForm("CrearPaquete", "Entrega", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+@if (rol == "Administrador")
 {
+    <h1>Paquetes</h1>
     <div class="row">
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.Detalle)
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
-                @Html.TextBoxFor(model => model.Detalle, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.Peso)
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
-                @Html.TextBoxFor(model => model.Peso, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.DireccionOrigen)
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
-                @Html.TextBoxFor(model => model.DireccionOrigen, new { @class = "form-control", @id = "DireccionOrigen", @placeholder = "Ingresa la dirección de origen" }) <button id="editarDireccionOrigen" class="accordion-body" type="button" style="background-color: green">Editar</button>
-            </div>
+        <div class="col-md-4">
+
+            @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { @class = "formulario", enctype = "multipart/form-data" }))
+            {
+                <div>
+                    @Html.TextBoxFor(model => model.Repartidor.Usuario.Nombre, new { @class = "form-control", @placeholder = "Buscar por Nombre" })
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.Repartidor.Usuario.ApellidoPaterno, new { @class = "form-control", @placeholder = "Buscar por Apellido" })
+                </div>
+                <hr />
+                <button class="btn btn-dark" type="submit">Buscar</button>
+            }
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-3">
-            @Html.LabelFor(model => model.DireccionEntrega)
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
-                @Html.TextBoxFor(model => model.DireccionEntrega, new { @class = "form-control", @id="DireccionEntrega", @placeholder = "Ingresa la direccion de entrega" })<button id="editarDireccionEntrega" class="accordion-body" type="button" style="background-color: red">Editar</button>
-            </div>
-        </div>
-        <h3>Correo Electronico</h3>
-        <input tipe="text" name="Email" placeholder="Email" />
-        <div class="text-center">
-            <button id="btnGuardar" class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
-            <a id="btnCancelar" onmouseover="CambiarColor()" class="btn btn-danger" href="@Url.Action("Paquetes", "Entrega")"><i class="fa-solid fa-right-from-bracket"></i> Volver</a>
-        </div>
-    </div>
+    if (Model.Entregas.Count > 0)
+    {
+        <table class="table table-bordered table-info">
+            <thead>
+                <tr>
+                    <th>Detalle</th>
+                    <th>Peso</th>
+                    <th>Direccion Origen</th>
+                    <th>Direccion Entrega</th>
+                    <th>Fecha Estimada de Entrega</th>
+                    <th>Codigo de Ratreo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ML.Entrega entrega in Model.Entregas)
+                {
+                    <tr>
+                        <td>@entrega.Paquete.Detalle</td>
+                        <td>@entrega.Paquete.Peso</td>
+                        <td>@entrega.Paquete.DireccionOrigen</td>
+                        <td>@entrega.Paquete.DireccionEntrega</td>
+                        <td>@entrega.Paquete.FechaEstimadaEntrega</td>
+                        <td>@entrega.Paquete.CodigoRastreo</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <h1>Usuarios</h1>
+    if (Model.Entregas.Count > 0)
+    {
+        <table class="table table-bordered table-info">
+            <thead>
+                <tr>
+                    <th>UserName</th>
+                    <th>ROL</th>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ML.Entrega entrega in Model.Entregas)
+                {
+                    <tr>
+                        <td>@entrega.Repartidor.Usuario.UserName</td>
+                        <td>@entrega.Repartidor.Usuario.Rol.Tipo</td>
+                        <td>@entrega.Repartidor.Usuario.Email</td>
+                        <td>@entrega.Repartidor.Usuario.Nombre</td>
+                        <td>@entrega.Repartidor.Usuario.ApellidoPaterno</td>
+                        <td>@entrega.Repartidor.Usuario.ApellidoMaterno</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 }
-<h3>My Google Maps Demo</h3>
-<div id="map" class="border-top border-secondary" border-3></div>
+else if (rol == null || rol == "")
+{
+    <h1>CrearPaquete</h1>
+    @Scripts.Render("~/bundles/jquery")
+    using (Html.BeginForm("CrearPaquete", "Entrega", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Paquete.Detalle)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
+                    @Html.TextBoxFor(model => model.Paquete.Detalle, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Paquete.Peso)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
+                    @Html.TextBoxFor(model => model.Paquete.Peso, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Paquete.DireccionOrigen)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
+                    @Html.TextBoxFor(model => model.Paquete.DireccionOrigen, new { @class = "form-control", @id = "DireccionOrigen", @placeholder = "Ingresa la dirección de origen" }) <button id="editarDireccionOrigen" class="accordion-body" type="button" style="background-color: green">Editar</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Paquete.DireccionEntrega)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-box2-fill"></i></span>
+                    @Html.TextBoxFor(model => model.Paquete.DireccionEntrega, new { @class = "form-control", @id = "DireccionEntrega", @placeholder = "Ingresa la direccion de entrega" })<button id="editarDireccionEntrega" class="accordion-body" type="button" style="background-color: red">Editar</button>
+                </div>
+            </div>
+            <h3>Correo Electronico</h3>
+            <input tipe="text" name="Email" placeholder="Email" />
+            <div class="text-center">
+                <button id="btnGuardar" class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                <a id="btnCancelar" onmouseover="CambiarColor()" class="btn btn-danger" href="@Url.Action("Paquetes", "Entrega")"><i class="fa-solid fa-right-from-bracket"></i> Volver</a>
+            </div>
+        </div>
+    }
+    <h3>My Google Maps Demo</h3>
+    <div id="map" class="border-top border-secondary" border-3></div>
+}
+
 @section Scripts{
     <script type="text/javascript">
         $("#btnGuardar").mouseenter(function () {
@@ -180,11 +264,11 @@
                             let inputId;
                             if (markerCount === 0 || !markers['DireccionOrigen']) {
                                 $("#DireccionOrigen").val(results[0].formatted_address);
-                                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'; 
+                                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
                                 inputId = 'DireccionOrigen';
                             } else if (markerCount === 1 || !markers['DireccionEntrega']) {
                                 $("#DireccionEntrega").val(results[0].formatted_address);
-                                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'; 
+                                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
                                 inputId = 'DireccionEntrega';
                             } else {
                                 alert('Ya has agregado dos marcadores. Por favor, elimina uno antes de agregar otro.');
