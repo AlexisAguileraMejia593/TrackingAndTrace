@@ -21,7 +21,7 @@ namespace BL
                 //todo lo que ejecute dentro de un using se libera al final
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "INSERT INTO UnidadEntrega(NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad) VALUES(@NumeroPlaca, @Modelo, @Marca, @AnoFabricacion, @IdEstatusUnidad)" ;
+                    string query = "INSERT INTO Unidad(NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad) VALUES(@NumeroPlaca, @Modelo, @Marca, @AnoFabricacion, @IdEstatusUnidad)" ;
                     SqlCommand cmd = new SqlCommand(query, context);
                     SqlParameter[] collection = new SqlParameter[5];
 
@@ -63,7 +63,7 @@ namespace BL
             {
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "SELECT IdUnidad, NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad FROM UnidadEntrega";
+                    string query = "SELECT IdUnidad, NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad FROM Unidad";
 
                     SqlCommand cmd = new SqlCommand(query, context);
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -102,7 +102,7 @@ namespace BL
             {
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "SELECT IdUnidad, NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad FROM UnidadEntrega WHERE IdUnidad = @IdUnidad";
+                    string query = "SELECT IdUnidad, NumeroPlaca, Modelo, Marca, AnoFabricacion, IdEstatusUnidad FROM Unidad WHERE IdUnidad = @IdUnidad";
 
                     SqlCommand cmd = new SqlCommand(query, context);
 
@@ -153,7 +153,7 @@ namespace BL
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
                     string query = "DECLARE @AnoFabricacion varchar(50);" +
-                        "UPDATE UnidadEntrega SET NumeroPlaca = @NumeroPlaca, Modelo = @Modelo, Marca = @Marca, AnoFabricacion = @AnoFabricacion, IdEstatusUnidad = @IdEstatusUnidad WHERE IdUnidad = @IdUnidad;";
+                        "UPDATE Unidad SET NumeroPlaca = @NumeroPlaca, Modelo = @Modelo, Marca = @Marca, AnoFabricacion = @AnoFabricacion, IdEstatusUnidad = @IdEstatusUnidad WHERE IdUnidad = @IdUnidad;";
 
                     SqlCommand cmd = new SqlCommand(query, context);
                     SqlParameter[] collection = new SqlParameter[5];
@@ -198,7 +198,7 @@ namespace BL
             {
                 using (SqlConnection context = new SqlConnection(DL.Conexion.GetConnectionString()))
                 {
-                    string query = "DELETE FROM UnidadEntrega WHERE IdUnidad = @IdUnidad";
+                    string query = "DELETE FROM Unidad WHERE IdUnidad = @IdUnidad";
 
                     SqlCommand cmd = new SqlCommand(query, context);
 

@@ -36,8 +36,8 @@
           <Property Name="IdPaquete" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Detalle" Type="varchar" MaxLength="50" />
           <Property Name="Peso" Type="varchar" MaxLength="50" />
-          <Property Name="DireccionOrigen" Type="varchar(max)" />
-          <Property Name="DireccionEntrega" Type="varchar(max)" />
+          <Property Name="DireccionOrigen" Type="varchar" MaxLength="50" />
+          <Property Name="DireccionEntrega" Type="varchar" MaxLength="50" />
           <Property Name="FechaEstimadaEntrega" Type="date" />
           <Property Name="CodigoRastreo" Type="varchar" MaxLength="50" />
         </EntityType>
@@ -46,7 +46,7 @@
             <PropertyRef Name="IdRepartidor" />
           </Key>
           <Property Name="IdRepartidor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdUnidadAsignada" Type="int" />
+          <Property Name="IdUnidad" Type="int" />
           <Property Name="Telefono" Type="int" />
           <Property Name="FechaIngreso" Type="date" />
           <Property Name="Fotografia" Type="varchar(max)" />
@@ -59,7 +59,7 @@
           <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Tipo" Type="varchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="UnidadEntrega">
+        <EntityType Name="Unidad">
           <Key>
             <PropertyRef Name="IdUnidad" />
           </Key>
@@ -83,7 +83,7 @@
           <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar(max)" />
         </EntityType>
-        <Association Name="FK__Entrega__IdEstat__2E1BDC42">
+        <Association Name="FK__Entrega__IdEstat__5DCAEF64">
           <End Role="EstatusEntrega" Type="Self.EstatusEntrega" Multiplicity="0..1" />
           <End Role="Entrega" Type="Self.Entrega" Multiplicity="*" />
           <ReferentialConstraint>
@@ -95,7 +95,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Entrega__IdPaque__2C3393D0">
+        <Association Name="FK__Entrega__IdPaque__5EBF139D">
           <End Role="Paquete" Type="Self.Paquete" Multiplicity="0..1" />
           <End Role="Entrega" Type="Self.Entrega" Multiplicity="*" />
           <ReferentialConstraint>
@@ -107,7 +107,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Entrega__IdRepar__2D27B809">
+        <Association Name="FK__Entrega__IdRepar__5FB337D6">
           <End Role="Repartidor" Type="Self.Repartidor" Multiplicity="0..1" />
           <End Role="Entrega" Type="Self.Entrega" Multiplicity="*" />
           <ReferentialConstraint>
@@ -119,31 +119,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Repartido__IdUni__33D4B598">
-          <End Role="UnidadEntrega" Type="Self.UnidadEntrega" Multiplicity="0..1" />
+        <Association Name="FK__Repartido__IdUni__60A75C0F">
+          <End Role="Unidad" Type="Self.Unidad" Multiplicity="0..1" />
           <End Role="Repartidor" Type="Self.Repartidor" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UnidadEntrega">
+            <Principal Role="Unidad">
               <PropertyRef Name="IdUnidad" />
             </Principal>
             <Dependent Role="Repartidor">
-              <PropertyRef Name="IdUnidadAsignada" />
+              <PropertyRef Name="IdUnidad" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UnidadEnt__IdEst__239E4DCF">
+        <Association Name="FK__UnidadEnt__IdEst__628FA481">
           <End Role="EstatusUnidad" Type="Self.EstatusUnidad" Multiplicity="0..1" />
-          <End Role="UnidadEntrega" Type="Self.UnidadEntrega" Multiplicity="*" />
+          <End Role="Unidad" Type="Self.Unidad" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EstatusUnidad">
               <PropertyRef Name="IdEstatus" />
             </Principal>
-            <Dependent Role="UnidadEntrega">
+            <Dependent Role="Unidad">
               <PropertyRef Name="IdEstatusUnidad" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Usuario__IdRol__145C0A3F">
+        <Association Name="FK__Usuario__IdRol__6383C8BA">
           <End Role="Rol" Type="Self.Rol" Multiplicity="0..1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -204,29 +204,29 @@
           <EntitySet Name="Paquete" EntityType="Self.Paquete" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Repartidor" EntityType="Self.Repartidor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UnidadEntrega" EntityType="Self.UnidadEntrega" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Unidad" EntityType="Self.Unidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Entrega__IdEstat__2E1BDC42" Association="Self.FK__Entrega__IdEstat__2E1BDC42">
+          <AssociationSet Name="FK__Entrega__IdEstat__5DCAEF64" Association="Self.FK__Entrega__IdEstat__5DCAEF64">
             <End Role="EstatusEntrega" EntitySet="EstatusEntrega" />
             <End Role="Entrega" EntitySet="Entrega" />
           </AssociationSet>
-          <AssociationSet Name="FK__Entrega__IdPaque__2C3393D0" Association="Self.FK__Entrega__IdPaque__2C3393D0">
+          <AssociationSet Name="FK__Entrega__IdPaque__5EBF139D" Association="Self.FK__Entrega__IdPaque__5EBF139D">
             <End Role="Paquete" EntitySet="Paquete" />
             <End Role="Entrega" EntitySet="Entrega" />
           </AssociationSet>
-          <AssociationSet Name="FK__Entrega__IdRepar__2D27B809" Association="Self.FK__Entrega__IdRepar__2D27B809">
+          <AssociationSet Name="FK__Entrega__IdRepar__5FB337D6" Association="Self.FK__Entrega__IdRepar__5FB337D6">
             <End Role="Repartidor" EntitySet="Repartidor" />
             <End Role="Entrega" EntitySet="Entrega" />
           </AssociationSet>
-          <AssociationSet Name="FK__Repartido__IdUni__33D4B598" Association="Self.FK__Repartido__IdUni__33D4B598">
-            <End Role="UnidadEntrega" EntitySet="UnidadEntrega" />
+          <AssociationSet Name="FK__Repartido__IdUni__60A75C0F" Association="Self.FK__Repartido__IdUni__60A75C0F">
+            <End Role="Unidad" EntitySet="Unidad" />
             <End Role="Repartidor" EntitySet="Repartidor" />
           </AssociationSet>
-          <AssociationSet Name="FK__UnidadEnt__IdEst__239E4DCF" Association="Self.FK__UnidadEnt__IdEst__239E4DCF">
+          <AssociationSet Name="FK__UnidadEnt__IdEst__628FA481" Association="Self.FK__UnidadEnt__IdEst__628FA481">
             <End Role="EstatusUnidad" EntitySet="EstatusUnidad" />
-            <End Role="UnidadEntrega" EntitySet="UnidadEntrega" />
+            <End Role="Unidad" EntitySet="Unidad" />
           </AssociationSet>
-          <AssociationSet Name="FK__Usuario__IdRol__145C0A3F" Association="Self.FK__Usuario__IdRol__145C0A3F">
+          <AssociationSet Name="FK__Usuario__IdRol__6383C8BA" Association="Self.FK__Usuario__IdRol__6383C8BA">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
@@ -276,33 +276,33 @@
           <EntitySet Name="Paquete" EntityType="TrackingAndTraceModel.Paquete" />
           <EntitySet Name="Repartidor" EntityType="TrackingAndTraceModel.Repartidor" />
           <EntitySet Name="Rol" EntityType="TrackingAndTraceModel.Rol" />
-          <EntitySet Name="UnidadEntrega" EntityType="TrackingAndTraceModel.UnidadEntrega" />
+          <EntitySet Name="Unidad" EntityType="TrackingAndTraceModel.Unidad" />
           <EntitySet Name="Usuario" EntityType="TrackingAndTraceModel.Usuario" />
-          <AssociationSet Name="FK__Entrega__IdEstat__2E1BDC42" Association="TrackingAndTraceModel.FK__Entrega__IdEstat__2E1BDC42">
+          <AssociationSet Name="FK__Entrega__IdEstat__5DCAEF64" Association="TrackingAndTraceModel.FK__Entrega__IdEstat__5DCAEF64">
             <End Role="EstatusEntrega" EntitySet="EstatusEntrega" />
             <End Role="Entrega" EntitySet="Entrega" />
           </AssociationSet>
-          <AssociationSet Name="FK__Entrega__IdPaque__2C3393D0" Association="TrackingAndTraceModel.FK__Entrega__IdPaque__2C3393D0">
+          <AssociationSet Name="FK__Entrega__IdPaque__5EBF139D" Association="TrackingAndTraceModel.FK__Entrega__IdPaque__5EBF139D">
             <End Role="Paquete" EntitySet="Paquete" />
             <End Role="Entrega" EntitySet="Entrega" />
           </AssociationSet>
-          <AssociationSet Name="FK__Entrega__IdRepar__2D27B809" Association="TrackingAndTraceModel.FK__Entrega__IdRepar__2D27B809">
+          <AssociationSet Name="FK__Entrega__IdRepar__5FB337D6" Association="TrackingAndTraceModel.FK__Entrega__IdRepar__5FB337D6">
             <End Role="Repartidor" EntitySet="Repartidor" />
             <End Role="Entrega" EntitySet="Entrega" />
           </AssociationSet>
-          <AssociationSet Name="FK__UnidadEnt__IdEst__239E4DCF" Association="TrackingAndTraceModel.FK__UnidadEnt__IdEst__239E4DCF">
+          <AssociationSet Name="FK__UnidadEnt__IdEst__628FA481" Association="TrackingAndTraceModel.FK__UnidadEnt__IdEst__628FA481">
             <End Role="EstatusUnidad" EntitySet="EstatusUnidad" />
-            <End Role="UnidadEntrega" EntitySet="UnidadEntrega" />
+            <End Role="Unidad" EntitySet="Unidad" />
           </AssociationSet>
-          <AssociationSet Name="FK__Repartido__IdUni__33D4B598" Association="TrackingAndTraceModel.FK__Repartido__IdUni__33D4B598">
-            <End Role="UnidadEntrega" EntitySet="UnidadEntrega" />
+          <AssociationSet Name="FK__Repartido__IdUni__60A75C0F" Association="TrackingAndTraceModel.FK__Repartido__IdUni__60A75C0F">
+            <End Role="Unidad" EntitySet="Unidad" />
             <End Role="Repartidor" EntitySet="Repartidor" />
           </AssociationSet>
           <AssociationSet Name="IdUsuario" Association="TrackingAndTraceModel.IdUsuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Repartidor" EntitySet="Repartidor" />
           </AssociationSet>
-          <AssociationSet Name="FK__Usuario__IdRol__145C0A3F" Association="TrackingAndTraceModel.FK__Usuario__IdRol__145C0A3F">
+          <AssociationSet Name="FK__Usuario__IdRol__6383C8BA" Association="TrackingAndTraceModel.FK__Usuario__IdRol__6383C8BA">
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
@@ -348,9 +348,9 @@
           <Property Name="IdRepartidor" Type="Int32" />
           <Property Name="FechaEntrega" Type="DateTime" Precision="0" />
           <Property Name="IdEstatusEntrega" Type="Int32" />
-          <NavigationProperty Name="EstatusEntrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdEstat__2E1BDC42" FromRole="Entrega" ToRole="EstatusEntrega" />
-          <NavigationProperty Name="Paquete" Relationship="TrackingAndTraceModel.FK__Entrega__IdPaque__2C3393D0" FromRole="Entrega" ToRole="Paquete" />
-          <NavigationProperty Name="Repartidor" Relationship="TrackingAndTraceModel.FK__Entrega__IdRepar__2D27B809" FromRole="Entrega" ToRole="Repartidor" />
+          <NavigationProperty Name="EstatusEntrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdEstat__5DCAEF64" FromRole="Entrega" ToRole="EstatusEntrega" />
+          <NavigationProperty Name="Paquete" Relationship="TrackingAndTraceModel.FK__Entrega__IdPaque__5EBF139D" FromRole="Entrega" ToRole="Paquete" />
+          <NavigationProperty Name="Repartidor" Relationship="TrackingAndTraceModel.FK__Entrega__IdRepar__5FB337D6" FromRole="Entrega" ToRole="Repartidor" />
         </EntityType>
         <EntityType Name="EstatusEntrega">
           <Key>
@@ -358,7 +358,7 @@
           </Key>
           <Property Name="IdEstatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Estatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Entrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdEstat__2E1BDC42" FromRole="EstatusEntrega" ToRole="Entrega" />
+          <NavigationProperty Name="Entrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdEstat__5DCAEF64" FromRole="EstatusEntrega" ToRole="Entrega" />
         </EntityType>
         <EntityType Name="EstatusUnidad">
           <Key>
@@ -366,7 +366,7 @@
           </Key>
           <Property Name="IdEstatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Estatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="UnidadEntrega" Relationship="TrackingAndTraceModel.FK__UnidadEnt__IdEst__239E4DCF" FromRole="EstatusUnidad" ToRole="UnidadEntrega" />
+          <NavigationProperty Name="Unidad" Relationship="TrackingAndTraceModel.FK__UnidadEnt__IdEst__628FA481" FromRole="EstatusUnidad" ToRole="Unidad" />
         </EntityType>
         <EntityType Name="Paquete">
           <Key>
@@ -375,24 +375,24 @@
           <Property Name="IdPaquete" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Detalle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Peso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DireccionOrigen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DireccionEntrega" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionOrigen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionEntrega" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FechaEstimadaEntrega" Type="DateTime" Precision="0" />
           <Property Name="CodigoRastreo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Entrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdPaque__2C3393D0" FromRole="Paquete" ToRole="Entrega" />
+          <NavigationProperty Name="Entrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdPaque__5EBF139D" FromRole="Paquete" ToRole="Entrega" />
         </EntityType>
         <EntityType Name="Repartidor">
           <Key>
             <PropertyRef Name="IdRepartidor" />
           </Key>
           <Property Name="IdRepartidor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdUnidadAsignada" Type="Int32" />
+          <Property Name="IdUnidad" Type="Int32" />
           <Property Name="Telefono" Type="Int32" />
           <Property Name="FechaIngreso" Type="DateTime" Precision="0" />
           <Property Name="Fotografia" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IdUsuario" Type="Int32" />
-          <NavigationProperty Name="Entrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdRepar__2D27B809" FromRole="Repartidor" ToRole="Entrega" />
-          <NavigationProperty Name="UnidadEntrega" Relationship="TrackingAndTraceModel.FK__Repartido__IdUni__33D4B598" FromRole="Repartidor" ToRole="UnidadEntrega" />
+          <NavigationProperty Name="Entrega" Relationship="TrackingAndTraceModel.FK__Entrega__IdRepar__5FB337D6" FromRole="Repartidor" ToRole="Entrega" />
+          <NavigationProperty Name="Unidad" Relationship="TrackingAndTraceModel.FK__Repartido__IdUni__60A75C0F" FromRole="Repartidor" ToRole="Unidad" />
           <NavigationProperty Name="Usuario" Relationship="TrackingAndTraceModel.IdUsuario" FromRole="Repartidor" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Rol">
@@ -401,9 +401,9 @@
           </Key>
           <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Usuario" Relationship="TrackingAndTraceModel.FK__Usuario__IdRol__145C0A3F" FromRole="Rol" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario" Relationship="TrackingAndTraceModel.FK__Usuario__IdRol__6383C8BA" FromRole="Rol" ToRole="Usuario" />
         </EntityType>
-        <EntityType Name="UnidadEntrega">
+        <EntityType Name="Unidad">
           <Key>
             <PropertyRef Name="IdUnidad" />
           </Key>
@@ -413,8 +413,8 @@
           <Property Name="Marca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AnoFabricacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IdEstatusUnidad" Type="Int32" />
-          <NavigationProperty Name="EstatusUnidad" Relationship="TrackingAndTraceModel.FK__UnidadEnt__IdEst__239E4DCF" FromRole="UnidadEntrega" ToRole="EstatusUnidad" />
-          <NavigationProperty Name="Repartidor" Relationship="TrackingAndTraceModel.FK__Repartido__IdUni__33D4B598" FromRole="UnidadEntrega" ToRole="Repartidor" />
+          <NavigationProperty Name="EstatusUnidad" Relationship="TrackingAndTraceModel.FK__UnidadEnt__IdEst__628FA481" FromRole="Unidad" ToRole="EstatusUnidad" />
+          <NavigationProperty Name="Repartidor" Relationship="TrackingAndTraceModel.FK__Repartido__IdUni__60A75C0F" FromRole="Unidad" ToRole="Repartidor" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -429,9 +429,9 @@
           <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Repartidor" Relationship="TrackingAndTraceModel.IdUsuario" FromRole="Usuario" ToRole="Repartidor" />
-          <NavigationProperty Name="Rol" Relationship="TrackingAndTraceModel.FK__Usuario__IdRol__145C0A3F" FromRole="Usuario" ToRole="Rol" />
+          <NavigationProperty Name="Rol" Relationship="TrackingAndTraceModel.FK__Usuario__IdRol__6383C8BA" FromRole="Usuario" ToRole="Rol" />
         </EntityType>
-        <Association Name="FK__Entrega__IdEstat__2E1BDC42">
+        <Association Name="FK__Entrega__IdEstat__5DCAEF64">
           <End Type="TrackingAndTraceModel.EstatusEntrega" Role="EstatusEntrega" Multiplicity="0..1" />
           <End Type="TrackingAndTraceModel.Entrega" Role="Entrega" Multiplicity="*" />
           <ReferentialConstraint>
@@ -443,7 +443,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Entrega__IdPaque__2C3393D0">
+        <Association Name="FK__Entrega__IdPaque__5EBF139D">
           <End Type="TrackingAndTraceModel.Paquete" Role="Paquete" Multiplicity="0..1" />
           <End Type="TrackingAndTraceModel.Entrega" Role="Entrega" Multiplicity="*" />
           <ReferentialConstraint>
@@ -455,7 +455,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Entrega__IdRepar__2D27B809">
+        <Association Name="FK__Entrega__IdRepar__5FB337D6">
           <End Type="TrackingAndTraceModel.Repartidor" Role="Repartidor" Multiplicity="0..1" />
           <End Type="TrackingAndTraceModel.Entrega" Role="Entrega" Multiplicity="*" />
           <ReferentialConstraint>
@@ -467,27 +467,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UnidadEnt__IdEst__239E4DCF">
+        <Association Name="FK__UnidadEnt__IdEst__628FA481">
           <End Type="TrackingAndTraceModel.EstatusUnidad" Role="EstatusUnidad" Multiplicity="0..1" />
-          <End Type="TrackingAndTraceModel.UnidadEntrega" Role="UnidadEntrega" Multiplicity="*" />
+          <End Type="TrackingAndTraceModel.Unidad" Role="Unidad" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EstatusUnidad">
               <PropertyRef Name="IdEstatus" />
             </Principal>
-            <Dependent Role="UnidadEntrega">
+            <Dependent Role="Unidad">
               <PropertyRef Name="IdEstatusUnidad" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Repartido__IdUni__33D4B598">
-          <End Type="TrackingAndTraceModel.UnidadEntrega" Role="UnidadEntrega" Multiplicity="0..1" />
+        <Association Name="FK__Repartido__IdUni__60A75C0F">
+          <End Type="TrackingAndTraceModel.Unidad" Role="Unidad" Multiplicity="0..1" />
           <End Type="TrackingAndTraceModel.Repartidor" Role="Repartidor" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UnidadEntrega">
+            <Principal Role="Unidad">
               <PropertyRef Name="IdUnidad" />
             </Principal>
             <Dependent Role="Repartidor">
-              <PropertyRef Name="IdUnidadAsignada" />
+              <PropertyRef Name="IdUnidad" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -503,7 +503,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Usuario__IdRol__145C0A3F">
+        <Association Name="FK__Usuario__IdRol__6383C8BA">
           <End Type="TrackingAndTraceModel.Rol" Role="Rol" Multiplicity="0..1" />
           <End Type="TrackingAndTraceModel.Usuario" Role="Usuario" Multiplicity="*" />
           <ReferentialConstraint>
@@ -619,7 +619,7 @@
                 <ScalarProperty Name="Fotografia" ColumnName="Fotografia" />
                 <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="IdUnidadAsignada" ColumnName="IdUnidadAsignada" />
+                <ScalarProperty Name="IdUnidad" ColumnName="IdUnidad" />
                 <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -632,9 +632,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UnidadEntrega">
-            <EntityTypeMapping TypeName="TrackingAndTraceModel.UnidadEntrega">
-              <MappingFragment StoreEntitySet="UnidadEntrega">
+          <EntitySetMapping Name="Unidad">
+            <EntityTypeMapping TypeName="TrackingAndTraceModel.Unidad">
+              <MappingFragment StoreEntitySet="Unidad">
                 <ScalarProperty Name="IdEstatusUnidad" ColumnName="IdEstatusUnidad" />
                 <ScalarProperty Name="AnoFabricacion" ColumnName="AnoFabricacion" />
                 <ScalarProperty Name="Marca" ColumnName="Marca" />

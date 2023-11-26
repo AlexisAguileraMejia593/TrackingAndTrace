@@ -21,7 +21,7 @@ namespace BL
                                  select new
                                  {
                                      IdRepartidor = repart.IdRepartidor,
-                                     IdUnidadAsignada = repart.IdUnidadAsignada,
+                                     IdUnidadAsignada = repart.Unidad.IdUnidad,
                                      Telefono = repart.Telefono,
                                      FechaIngreso = repart.FechaIngreso,
                                      Fotografia = repart.Fotografia,
@@ -34,7 +34,7 @@ namespace BL
                             ML.Repartidor repartidor = new ML.Repartidor();
                             repartidor.IdRepartidor = registro.IdRepartidor;
                             repartidor.Unidad = new ML.Unidad();
-                            repartidor.Unidad.IdUnidad = registro.IdUnidadAsignada.Value;
+                            repartidor.Unidad.IdUnidad = registro.IdUnidadAsignada;
                             repartidor.Telefono = registro.Telefono.Value;
                             repartidor.FechaIngreso = registro.FechaIngreso.Value;
                             repartidor.Fotografia = registro.Fotografia;
@@ -62,8 +62,14 @@ namespace BL
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
                     DL.Repartidor repartidorEntity = new DL.Repartidor();
-                    repartidor.Unidad = new ML.Unidad();
-                    repartidorEntity.IdUnidadAsignada = repartidor.Unidad.IdUnidad;
+
+                    DL.Unidad unidadEntity = context.Unidad.Find(repartidor.Unidad.IdUnidad);
+                    if (unidadEntity == null)
+                    {
+                        return null;
+                    }
+
+                    repartidorEntity.Unidad = unidadEntity;
                     repartidorEntity.Telefono = repartidor.Telefono;
                     repartidorEntity.FechaIngreso = repartidor.FechaIngreso;
                     repartidorEntity.Fotografia = repartidor.Fotografia;
@@ -74,7 +80,6 @@ namespace BL
 
                     if (rowsAffected > 0)
                     {
-                        // Asigna el Id del repartidorEntity a repartidor
                         repartidor.IdRepartidor = repartidorEntity.IdRepartidor;
                         return repartidor;
                     }
@@ -102,7 +107,7 @@ namespace BL
                                  select new
                                  {
                                      IdRepartidor = repart.IdRepartidor,
-                                     IdUnidadAsignada = repart.IdUnidadAsignada,
+                                     IdUnidadAsignada = repart.Unidad.IdUnidad,
                                      Telefono = repart.Telefono,
                                      FechaIngreso = repart.FechaIngreso,
                                      Fotografia = repart.Fotografia,
@@ -116,7 +121,7 @@ namespace BL
                             ML.Repartidor repartidorlist = new ML.Repartidor();
                             repartidorlist.IdRepartidor = registro.IdRepartidor;
                             repartidorlist.Unidad = new ML.Unidad();
-                            repartidorlist.Unidad.IdUnidad = registro.IdUnidadAsignada.Value;
+                            repartidorlist.Unidad.IdUnidad = registro.IdUnidadAsignada;
                             repartidorlist.Telefono = registro.Telefono.Value;
                             repartidorlist.FechaIngreso = registro.FechaIngreso.Value;
                             repartidorlist.Fotografia = registro.Fotografia;
@@ -142,17 +147,35 @@ namespace BL
             {
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
-                    var query = (from a in context.Repartidor
-                                 where a.IdRepartidor == repartidor.IdRepartidor
-                                 select a).SingleOrDefault();
+                    var query = context.Repartidor.SingleOrDefault(r => r.IdRepartidor == repartidor.IdRepartidor);
                     if (query != null)
                     {
-                        repartidor.Unidad = new ML.Unidad();
-                        query.IdUnidadAsignada = repartidor.Unidad.IdUnidad;
+                        // Busca la Unidad existente en la base de datos
+                        DL.Unidad unidadEntity = context.Unidad.Find(repartidor.Unidad.IdUnidad);
+                        if (unidadEntity == null)
+                        {
+                            // La Unidad no existe en la base de datos
+                            return false;
+                        }
+
+                        // Asigna la Unidad existente a query
+                        query.Unidad = unidadEntity;
+
+                        // Busca el Usuario existente en la base de datos
+                        DL.Usuario usuarioEntity = context.Usuario.Find(repartidor.Usuario.IdUsuario);
+                        if (usuarioEntity == null)
+                        {
+                            // El Usuario no existe en la base de datos
+                            return false;
+                        }
+
+                        // Asigna el Usuario existente a query
+                        query.Usuario = usuarioEntity;
+
                         query.Telefono = repartidor.Telefono;
                         query.FechaIngreso = repartidor.FechaIngreso;
                         query.Fotografia = repartidor.Fotografia;
-                        query.IdUsuario = repartidor.Usuario.IdUsuario;
+
                         context.SaveChanges();
                         return true;
                     }
@@ -202,14 +225,14 @@ namespace BL
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
                     var query = (from repartidor in context.Repartidor
-                                  join unidadEntrega in context.UnidadEntrega on repartidor.IdUnidadAsignada equals unidadEntrega.IdUnidad
+                                  join unidadEntrega in context.Unidad on repartidor.Unidad.IdUnidad equals unidadEntrega.IdUnidad
                                   join usuario in context.Usuario on repartidor.IdUsuario equals usuario.IdUsuario
                                   join estatusUnidad in context.EstatusUnidad on unidadEntrega.IdEstatusUnidad equals estatusUnidad.IdEstatus
                                   where usuario.IdUsuario == IdUsuario
                                   select new
                                   {
                                       IdRepartidor = repartidor.IdRepartidor,
-                                      IdUnidadAsignada = repartidor.IdUnidadAsignada,
+                                      IdUnidadAsignada = repartidor.Unidad.IdUnidad,
                                       Telefono = repartidor.Telefono,
                                       FechaIngreso = repartidor.FechaIngreso,
                                       Fotografia = repartidor.Fotografia,

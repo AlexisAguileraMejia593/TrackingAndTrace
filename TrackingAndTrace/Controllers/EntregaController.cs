@@ -40,11 +40,8 @@ namespace TrackingAndTrace.Controllers
         [HttpGet]
         public ActionResult CrearPaquete()
         {
-            ML.Entrega entrega = new ML.Entrega();
-            entrega.Repartidor.Usuario.Nombre = "";
-            entrega.Repartidor.Usuario.ApellidoPaterno = "";
 
-            ML.Entrega entrega1 = BL.Entrega.GetAll();
+            ML.Entrega entrega = BL.Entrega.GetAll();
             var result = entrega.Entregas;
 
             return View(entrega);

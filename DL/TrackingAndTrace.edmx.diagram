@@ -11,15 +11,15 @@
         <EntityTypeShape EntityType="TrackingAndTraceModel.Paquete" Width="1.5" PointX="5.25" PointY="7" />
         <EntityTypeShape EntityType="TrackingAndTraceModel.Repartidor" Width="1.5" PointX="5.25" PointY="1" />
         <EntityTypeShape EntityType="TrackingAndTraceModel.Rol" Width="1.5" PointX="0.75" PointY="5.5" />
-        <EntityTypeShape EntityType="TrackingAndTraceModel.UnidadEntrega" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="TrackingAndTraceModel.Unidad" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="TrackingAndTraceModel.Usuario" Width="1.5" PointX="3" PointY="4.875" />
-        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdEstat__2E1BDC42" />
-        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdPaque__2C3393D0" />
-        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdRepar__2D27B809" />
-        <AssociationConnector Association="TrackingAndTraceModel.FK__UnidadEnt__IdEst__239E4DCF" />
-        <AssociationConnector Association="TrackingAndTraceModel.FK__Repartido__IdUni__33D4B598" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdEstat__5DCAEF64" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdPaque__5EBF139D" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Entrega__IdRepar__5FB337D6" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__UnidadEnt__IdEst__628FA481" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Repartido__IdUni__60A75C0F" />
         <AssociationConnector Association="TrackingAndTraceModel.IdUsuario" />
-        <AssociationConnector Association="TrackingAndTraceModel.FK__Usuario__IdRol__145C0A3F" />
+        <AssociationConnector Association="TrackingAndTraceModel.FK__Usuario__IdRol__6383C8BA" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

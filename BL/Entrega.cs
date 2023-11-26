@@ -8,7 +8,7 @@ namespace BL
 {
     public class Entrega
     {
-        public static ML.Entrega GetAll(string nombreRepartidor, string apellidoPaternoRepartidor)
+        public static ML.Entrega GetAll()
         {
             ML.Entrega entregaobject = new ML.Entrega();
             entregaobject.Entregas = new List<ML.Entrega>();
@@ -22,7 +22,6 @@ namespace BL
                                  join usuario in context.Usuario on repartidor.IdUsuario equals usuario.IdUsuario
                                  join rol in context.Rol on usuario.IdRol equals rol.IdRol
                                  join estatusentrega in context.EstatusEntrega on entrega.IdEstatusEntrega equals estatusentrega.IdEstatus
-                                where usuario.Nombre.Contains(nombreRepartidor) && usuario.ApellidoPaterno.Contains(apellidoPaternoRepartidor)
                                 select new
                                  {
                                      entrega.IdEntrega,
@@ -35,7 +34,7 @@ namespace BL
                                      paquete.FechaEstimadaEntrega,
                                      paquete.CodigoRastreo,
                                      repartidor.IdRepartidor,
-                                     repartidor.IdUnidadAsignada,
+                                     repartidor.Unidad.IdUnidad,
                                      repartidor.Telefono,
                                      repartidor.FechaIngreso,
                                      repartidor.Fotografia,
@@ -113,7 +112,7 @@ namespace BL
                                     paquete.FechaEstimadaEntrega,
                                     paquete.CodigoRastreo,
                                     repartidor.IdRepartidor,
-                                    repartidor.IdUnidadAsignada,
+                                    repartidor.Unidad.IdUnidad,
                                     repartidor.Telefono,
                                     repartidor.FechaIngreso,
                                     repartidor.Fotografia,

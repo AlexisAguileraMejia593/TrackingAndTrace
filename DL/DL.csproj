@@ -97,7 +97,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TrackingAndTrace.edmx</DependentUpon>
     </Compile>
-    <Compile Include="UnidadEntrega.cs">
+    <Compile Include="Unidad.cs">
       <DependentUpon>TrackingAndTrace.tt</DependentUpon>
     </Compile>
     <Compile Include="Usuario.cs">

@@ -52,10 +52,10 @@
 
         <div class="row">
             <div class="col-md-3">
-                @Html.LabelFor(model => model.IdEstatusUnidad)
+                @Html.LabelFor(model => model.EstatusUnidad.IdEstatus)
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-                    @Html.TextBoxFor(model => model.IdEstatusUnidad, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.EstatusUnidad.IdEstatus, new { @class = "form-control" })
                 </div>
             </div>
         </div>

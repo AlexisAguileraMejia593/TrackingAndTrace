@@ -20,6 +20,12 @@ namespace TrackingAndTrace.Controllers
         public ActionResult Form(int? IdRepartidor)
         {
             ML.Repartidor repartidor = new ML.Repartidor();
+            repartidor.Unidad = new ML.Unidad();
+            repartidor.Usuario = new ML.Usuario();
+            ML.Unidad unidadobj = BL.Unidad.GetAll();
+            ML.Usuario usuarioobj = BL.Usuario.GetAll();
+            repartidor.Unidad.Unidades = unidadobj.Unidades;
+            repartidor.Usuario.Usuarios = usuarioobj.Usuarios;
 
             if (IdRepartidor != null)
             {
@@ -28,6 +34,8 @@ namespace TrackingAndTrace.Controllers
                 {
                     //UNBOXING
                     repartidor = (ML.Repartidor)list;
+                    repartidor.Unidad.Unidades = unidadobj.Unidades;
+                    repartidor.Usuario.Usuarios = usuarioobj.Usuarios;
                 }
             }
             else
@@ -69,6 +77,10 @@ namespace TrackingAndTrace.Controllers
             }
             else
             {
+                ML.Unidad unidadobj = BL.Unidad.GetAll();
+                ML.Usuario usuarioobj = BL.Usuario.GetAll();
+                repartidor.Unidad.Unidades = unidadobj.Unidades;
+                repartidor.Usuario.Usuarios = usuarioobj.Usuarios;
                 return View(repartidor);
             }
             return PartialView("Modal");
