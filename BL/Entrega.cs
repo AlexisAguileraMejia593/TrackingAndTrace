@@ -8,7 +8,7 @@ namespace BL
 {
     public class Entrega
     {
-        public static ML.Entrega GetAll()
+        public static ML.Entrega GetAll(string detalle, string nombre)
         {
             ML.Entrega entregaobject = new ML.Entrega();
             entregaobject.Entregas = new List<ML.Entrega>();
@@ -17,7 +17,9 @@ namespace BL
                 using (DL.TrackingAndTraceEntities context = new DL.TrackingAndTraceEntities())
                 {
                     var query = from entrega in context.Entrega
-                                 join paquete in context.Paquete on entrega.IdPaquete equals paquete.IdPaquete
+                                .Where(p => p.Paquete.Detalle.Contains(detalle) && p.Repartidor.Usuario.Nombre.Contains(nombre))
+                                .ToList()
+                    join paquete in context.Paquete on entrega.IdPaquete equals paquete.IdPaquete
                                  join repartidor in context.Repartidor on entrega.IdRepartidor equals repartidor.IdRepartidor
                                  join usuario in context.Usuario on repartidor.IdUsuario equals usuario.IdUsuario
                                  join rol in context.Rol on usuario.IdRol equals rol.IdRol

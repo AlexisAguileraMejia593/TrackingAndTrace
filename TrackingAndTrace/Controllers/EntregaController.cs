@@ -14,8 +14,11 @@ namespace TrackingAndTrace.Controllers
         // GET: Paquete
         public ActionResult Index()
         {
-            ML.Entrega entrega = BL.Entrega.GetAll();
-            var result = entrega.Entregas;
+            string detalle = "";
+            string nombre = "";
+            ML.Entrega entrega = new ML.Entrega();
+            var result = BL.Entrega.GetAll(detalle, nombre);
+            entrega.Entregas = result.Entregas;
             return View(entrega);
         }
 
@@ -40,71 +43,85 @@ namespace TrackingAndTrace.Controllers
         [HttpGet]
         public ActionResult CrearPaquete()
         {
-
-            ML.Entrega entrega = BL.Entrega.GetAll();
-            var result = entrega.Entregas;
-
+            string detalle = "";
+            string nombre = "";
+            ML.Entrega entrega = new ML.Entrega();
+            var result = BL.Entrega.GetAll(detalle, nombre);
+            entrega.Entregas = result.Entregas;
             return View(entrega);
         }
         [HttpPost]
-        public ActionResult CrearPaquete(ML.Paquete paquete, string Email)
+        public ActionResult CrearPaquete(ML.Paquete paquete, string Email, string FormId, ML.Entrega entrega)
         {
-            var result = BL.Paquetes.Add(paquete);
-            if (result != null)
+            if(FormId == "FormularioFiltrado")
             {
-                ViewBag.Mensaje = "Se ha ingresado correctamente el paquete";
-                /*       SmtpClient client = new SmtpClient("smtp.gmail.com", 587)
-                       {
-                           Credentials = new NetworkCredential(Email, "utcd alea dwje xqfe"),
-                           EnableSsl = true
-                       };
-                       string mMailServer = "smtp.gmail.com";
-                       string mTo = "5577901650@txt.att.net";
-                       string mFrom = Email;
-                       string mMsg = "Hola, este es un mensaje de texto enviado desde una aplicación C#.";
-                       string mSubject = "Mensaje de texto";
+                string detalle = entrega.Paquete.Detalle;
+                string nombre = entrega.Repartidor.Usuario.Nombre;
 
-                       // Crear y enviar el mensaje
-                       try
-                       {
-                           MailMessage message = new MailMessage(mFrom, mTo, mSubject, mMsg);
-                           SmtpClient mySmtpClient = new SmtpClient(mMailServer);
-                           mySmtpClient.UseDefaultCredentials = true;
-                           mySmtpClient.Send(message);
-                       }
-                       catch (Exception ex)
-                       {
-                           Console.WriteLine("Error al enviar el mensaje: " + ex.Message);
-                       }
+                var result = BL.Entrega.GetAll(detalle, nombre);
 
-                       return RedirectToAction("Paquetes");
-                */
-                string emailOrigen = "alexaguilera992000@gmail.com";
+                entrega.Entregas = result.Entregas;
+                return View(entrega);
+            } else if (FormId == "FormularioCrearPaquete")
+            {
+                var result = BL.Paquetes.Add(paquete);
+                if (result != null)
+                {
+                    ViewBag.Mensaje = "Se ha ingresado correctamente el paquete";
+                    /*       SmtpClient client = new SmtpClient("smtp.gmail.com", 587)
+                           {
+                               Credentials = new NetworkCredential(Email, "utcd alea dwje xqfe"),
+                               EnableSsl = true
+                           };
+                           string mMailServer = "smtp.gmail.com";
+                           string mTo = "5577901650@txt.att.net";
+                           string mFrom = Email;
+                           string mMsg = "Hola, este es un mensaje de texto enviado desde una aplicación C#.";
+                           string mSubject = "Mensaje de texto";
 
-                MailMessage mailMessage = new MailMessage
-           (emailOrigen, Email, "CrearPaquete", "<p>Confirmacion de envio del paquete</p>");
+                           // Crear y enviar el mensaje
+                           try
+                           {
+                               MailMessage message = new MailMessage(mFrom, mTo, mSubject, mMsg);
+                               SmtpClient mySmtpClient = new SmtpClient(mMailServer);
+                               mySmtpClient.UseDefaultCredentials = true;
+                               mySmtpClient.Send(message);
+                           }
+                           catch (Exception ex)
+                           {
+                               Console.WriteLine("Error al enviar el mensaje: " + ex.Message);
+                           }
 
-                mailMessage.IsBodyHtml = true;
+                           return RedirectToAction("Paquetes");
+                    */
+                    string emailOrigen = "alexaguilera992000@gmail.com";
 
-                string url = "https://localhost:44383/Entrega/CrearPaquete/ " + System.Web.HttpUtility.UrlEncode(Email);
+                    MailMessage mailMessage = new MailMessage
+               (emailOrigen, Email, "CrearPaquete", "<p>Confirmacion de envio del paquete</p>");
 
-                mailMessage.Body = mailMessage.Body.Replace("{Url}", url);
-                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-                smtpClient.EnableSsl = true;
-                smtpClient.UseDefaultCredentials = false;
-                smtpClient.Port = 587;
-                smtpClient.Credentials = new System.Net.NetworkCredential(emailOrigen, "utcd alea dwje xqfe");
+                    mailMessage.IsBodyHtml = true;
 
-                smtpClient.Send(mailMessage);
-                smtpClient.Dispose();
+                    string url = "https://localhost:44383/Entrega/CrearPaquete/ " + System.Web.HttpUtility.UrlEncode(Email);
 
-                ViewBag.Modal = "show";
-                ViewBag.Mensaje = "Se ha enviado un correo de confirmacion a tu correo electronico";
+                    mailMessage.Body = mailMessage.Body.Replace("{Url}", url);
+                    SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+                    smtpClient.EnableSsl = true;
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Port = 587;
+                    smtpClient.Credentials = new System.Net.NetworkCredential(emailOrigen, "utcd alea dwje xqfe");
+
+                    smtpClient.Send(mailMessage);
+                    smtpClient.Dispose();
+
+                    ViewBag.Modal = "show";
+                    ViewBag.Mensaje = "Se ha enviado un correo de confirmacion a tu correo electronico";
+                    return RedirectToAction("Paquetes");
+                }
+                else
+                {
+                    ViewBag.Mensaje = "No se ha ingresado correctamente el paquete. Error: " + result;
+                }
                 return View();
-            }
-            else
-            {
-                ViewBag.Mensaje = "No se ha ingresado correctamente el paquete. Error: " + result;
             }
             return View();
         }

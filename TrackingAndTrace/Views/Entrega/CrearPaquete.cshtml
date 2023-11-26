@@ -30,13 +30,14 @@
     <div class="row">
         <div class="col-md-4">
 
-            @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { @class = "formulario", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CrearPaquete", "Entrega", FormMethod.Post, new { @class = "formulario", enctype = "multipart/form-data" }))
             {
+                @Html.Hidden("FormId", "FormularioFiltrado")
                 <div>
-                    @Html.TextBoxFor(model => model.Repartidor.Usuario.Nombre, new { @class = "form-control", @placeholder = "Buscar por Nombre" })
+                    @Html.TextBoxFor(model => model.Paquete.Detalle, new { @class = "form-control", @placeholder = "Buscar por Detalle del Producto" })
                 </div>
                 <div>
-                    @Html.TextBoxFor(model => model.Repartidor.Usuario.ApellidoPaterno, new { @class = "form-control", @placeholder = "Buscar por Apellido" })
+                    @Html.TextBoxFor(model => model.Repartidor.Usuario.Nombre, new { @class = "form-control", @placeholder = "Buscar por Nombre del Repartidor" })
                 </div>
                 <hr />
                 <button class="btn btn-dark" type="submit">Buscar</button>
@@ -108,6 +109,7 @@ else if (rol == null || rol == "")
     @Scripts.Render("~/bundles/jquery")
     using (Html.BeginForm("CrearPaquete", "Entrega", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
+        @Html.Hidden("FormId", "FormularioCrearPaquete")
         <div class="row">
             <div class="col-md-3">
                 @Html.LabelFor(model => model.Paquete.Detalle)
