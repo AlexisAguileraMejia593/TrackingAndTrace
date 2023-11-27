@@ -1,11 +1,19 @@
 ﻿using ML;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.IO.Image;
+using iText.Kernel.Pdf;
+using iText.Kernel.Colors;
 
 namespace TrackingAndTrace.Controllers
 {
@@ -124,6 +132,65 @@ namespace TrackingAndTrace.Controllers
                 return View();
             }
             return View();
+        }
+        public ActionResult GenerarPDF()
+        {
+            string detalle = "";
+            string nombre = "";
+            ML.Entrega entrega = new ML.Entrega();
+            var result = BL.Entrega.GetAll(detalle, nombre);
+            entrega.Entregas = result.Entregas;
+
+            // Crear un nuevo documento PDF en una ubicación temporal
+            string rutaTempPDF = Path.GetTempFileName() + ".pdf";
+
+            using (PdfDocument pdfDocument = new PdfDocument(new PdfWriter(rutaTempPDF)))
+            {
+                using (Document document = new Document(pdfDocument))
+                {
+                    document.Add(new Paragraph("Resumen de Compra"));
+
+                    // Crear la tabla para mostrar la lista de objetos
+                    iText.Layout.Element.Table table = new iText.Layout.Element.Table(5); // 5 columnas
+                    table.SetWidth(UnitValue.CreatePercentValue(100)); // Ancho de la tabla al 100% del documento
+
+                    // Establecer el color de fondo de la tabla
+                    table.SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+
+                    // Añadir las celdas de encabezado a la tabla
+                    table.AddHeaderCell("ID Entrega");
+                    table.AddHeaderCell("ID Paquete");
+                    table.AddHeaderCell("Detalle");
+                    table.AddHeaderCell("Peso");
+                    table.AddHeaderCell("Direccion de Origen");
+
+                    // Añadir las celdas de datos a la tabla
+                    foreach (ML.Entrega entrega1 in entrega.Entregas)
+                    {
+                        table.AddCell(entrega1.IdEntrega.ToString());
+                        table.AddCell(entrega1.Paquete.IdPaquete.ToString());
+                        table.AddCell(entrega1.Paquete.Detalle.ToString());
+                        table.AddCell(entrega1.Paquete.Peso.ToString());
+                        table.AddCell(entrega1.Paquete.DireccionOrigen.ToString());
+                    }
+
+                    // Añadir la tabla al documento
+                    document.Add(table);
+                }
+            }
+
+            // Leer el archivo PDF como un arreglo de bytes
+            byte[] fileBytes = System.IO.File.ReadAllBytes(rutaTempPDF);
+
+            // Eliminar el archivo temporal
+            System.IO.File.Delete(rutaTempPDF);
+            HttpContext.Session.Remove("Carrito");
+
+            // Descargar el archivo PDF
+            return new FileStreamResult(new MemoryStream(fileBytes), "application/pdf")
+            {
+                FileDownloadName = "ReporteProductos.pdf"
+            };
         }
     }
 }

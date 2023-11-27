@@ -144,8 +144,37 @@ else if (rol == null || rol == "")
             <h3>Correo Electronico</h3>
             <input tipe="text" name="Email" placeholder="Email" />
             <div class="text-center">
-                <button id="btnGuardar" class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
                 <a id="btnCancelar" onmouseover="CambiarColor()" class="btn btn-danger" href="@Url.Action("Paquetes", "Entrega")"><i class="fa-solid fa-right-from-bracket"></i> Volver</a>
+            </div>
+            <button type="button" onclick="AbrirModal()" class="btn btn-dark"><i class="fa-solid fa-money-bill"></i> Reporte</button>
+        </div>
+
+        <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header alert-secondary">
+                        <h5 class="modal-title" id="exampleModalLabel">Termina tu compra</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>hola</td>
+                                <td>hola2</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>comoestas</th>
+                                <th>comoestas</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="btnGuardar" class="btn btn-success" type="submit"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                    <div class="modal-footer">
+                        <a href="@Url.Action("GenerarPDF")" id="btnGuardar" class="btn btn-dark"><i class="fa-solid fa-file-pdf"></i> Resumen</a>
+                    </div>
+                </div>
             </div>
         </div>
     }
@@ -153,8 +182,12 @@ else if (rol == null || rol == "")
     <div id="map" class="border-top border-secondary" border-3></div>
 }
 
+
 @section Scripts{
     <script type="text/javascript">
+        function AbrirModal() {
+            $('#Modal').modal('show');
+        }
         $("#btnGuardar").mouseenter(function () {
             $("#btnGuardar").addClass("fa-beat").mouseout(function () {
                 $("#btnGuardar").removeClass("fa-beat")
