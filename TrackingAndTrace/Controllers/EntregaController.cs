@@ -69,6 +69,7 @@ namespace TrackingAndTrace.Controllers
                 var result = BL.Entrega.GetAll(detalle, nombre);
 
                 entrega.Entregas = result.Entregas;
+                Session["Entrega"] = entrega.Entregas.Count;
                 return View(entrega);
             } else if (FormId == "FormularioCrearPaquete")
             {
@@ -148,7 +149,7 @@ namespace TrackingAndTrace.Controllers
             {
                 using (Document document = new Document(pdfDocument))
                 {
-                    document.Add(new Paragraph("Resumen de Compra"));
+                    document.Add(new Paragraph("Resumen de las Entregas"));
 
                     // Crear la tabla para mostrar la lista de objetos
                     iText.Layout.Element.Table table = new iText.Layout.Element.Table(5); // 5 columnas
