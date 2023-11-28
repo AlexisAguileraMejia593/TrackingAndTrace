@@ -134,10 +134,8 @@ namespace TrackingAndTrace.Controllers
             }
             return View();
         }
-        public ActionResult GenerarPDF()
+        public ActionResult GenerarPDF(string detalle, string nombre)
         {
-            string detalle = "";
-            string nombre = "";
             ML.Entrega entrega = new ML.Entrega();
             var result = BL.Entrega.GetAll(detalle, nombre);
             entrega.Entregas = result.Entregas;
@@ -190,7 +188,7 @@ namespace TrackingAndTrace.Controllers
             // Descargar el archivo PDF
             return new FileStreamResult(new MemoryStream(fileBytes), "application/pdf")
             {
-                FileDownloadName = "ReporteProductos.pdf"
+                FileDownloadName = "ReporteDeEnvios.pdf"
             };
         }
     }

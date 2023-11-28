@@ -44,7 +44,7 @@
                 <button class="btn btn-dark" type="submit">Buscar</button>
                 if (IdEntrega > 0)
                 {
-                    <a href="@Url.Action("GenerarPDF")" id="btnGuardar" class="btn btn-dark"><i class="fa-solid fa-file-pdf"></i> Reporte</a>
+                <a href="@Url.Action("GenerarPDF", new { detalle = Model.Paquete.Detalle, nombre = Model.Repartidor.Usuario.Nombre })" id="btnGuardar" class="btn btn-dark"><i class="fa-solid fa-file-pdf"></i> Reporte</a>
                 }
             }
         </div>
